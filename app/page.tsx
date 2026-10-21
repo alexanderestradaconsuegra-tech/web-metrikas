@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import PhoneWalkthrough from "./PhoneWalkthrough";
+import StackedSteps from "./StackedSteps";
 
 type Player = { id: number; label: string; x: number; y: number };
 
@@ -719,6 +720,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <StackedSteps onDemo={() => setDemoOpen(true)} />
 
       <section className="section pricing-section" id="precios">
         <div className="container">

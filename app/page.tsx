@@ -62,6 +62,12 @@ const monthlyProgress = [
   { month: "Jul", before: 78, after: 94 },
 ];
 
+const access = [
+  ["Dueño o entrenador principal", "Todo: categorías, pagos, suscripción y accesos", "Nada se le oculta"],
+  ["Profesor de categoría", "Su plantel, sus partidos y sus entrenamientos", "Pagos, configuración ni otras categorías"],
+  ["Jugador o apoderado", "Su ficha, su avance y sus convocatorias", "Los datos de otros jugadores"],
+];
+
 const comparison = [
   ["Convocatorias perdidas entre mensajes de WhatsApp", "Confirmaciones y avisos directo al celular de cada familia"],
   ["Pagos repartidos entre cuadernos y hojas de cálculo", "Cuotas automáticas y deudas siempre a la vista"],
@@ -475,7 +481,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-board, .compare-cta, .module-index-item, .showcase-copy, .phone-stage, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .phone-stage, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
     revealTargetsList = revealTargets;
@@ -680,12 +686,16 @@ export default function Home() {
       <section className="section roles-section">
         <div className="container">
           <div className="section-heading centered roles-heading"><h2>Cada persona ve solo<br /><em>lo que necesita.</em></h2><p>Tú controlas quién accede a qué, sin contraseñas compartidas ni datos expuestos.</p></div>
-          <div className="role-grid">
-            <article className="role-card primary"><span className="role-id">01</span><div className="role-avatar"><img src="/assets/role-owner.webp" alt="Retrato ilustrativo de un dueño y entrenador principal" width="88" height="88" loading="lazy" decoding="async" /></div><h3>Dueño / Entrenador principal</h3><p>Control total de categorías, pagos, suscripción y accesos.</p><ul><li>Panel completo</li><li>Gestión de profesores</li><li>Información financiera</li></ul></article>
-            <article className="role-card"><span className="role-id">02</span><div className="role-avatar"><img src="/assets/role-professor.webp" alt="Retrato ilustrativo de un profesor de categoría" width="88" height="88" loading="lazy" decoding="async" /></div><h3>Profesor de categoría</h3><p>Gestiona únicamente su plantel, partidos y entrenamientos.</p><ul><li>Acceso por categoría</li><li>Sin acceso a pagos</li><li>Cuenta independiente</li></ul></article>
-            <article className="role-card"><span className="role-id">03</span><div className="role-avatar"><img src="/assets/role-player.webp" alt="Retrato ilustrativo de un jugador juvenil" width="88" height="88" loading="lazy" decoding="async" /></div><h3>Jugador / Acudiente</h3><p>Consulta ficha, progreso y convocatoria desde el celular.</p><ul><li>Confirma asistencia</li><li>Ve su evolución</li><li>Recibe notificaciones</li></ul></article>
+          <div className="access-board">
+            <div className="access-head" aria-hidden="true"><span>Quién</span><span>Qué ve</span><span>Qué no ve</span></div>
+            {access.map(([role, sees, hidden]) => (
+              <div className="access-row" key={role}>
+                <h3>{role}</h3>
+                <p className="access-sees"><span className="access-mark" aria-hidden="true"><CheckIcon /></span><span className="sr-only">Ve: </span>{sees}</p>
+                <p className="access-hidden"><span className="access-mark" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M6 9V7a4 4 0 0 1 8 0v2M5 9h10v7H5z" /></svg></span><span className="sr-only">No ve: </span>{hidden}</p>
+              </div>
+            ))}
           </div>
-          <p className="roles-example-note">Fotografías ilustrativas de cada tipo de usuario.</p>
         </div>
       </section>
 

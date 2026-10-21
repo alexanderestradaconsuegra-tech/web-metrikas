@@ -464,7 +464,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .phone-stage, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .appshot, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
     revealTargetsList = revealTargets;
@@ -592,6 +592,26 @@ export default function Home() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      <section className="section appshot-section" id="jugadores">
+        <div className="container">
+          <div className="section-heading centered appshot-heading">
+            <h2>Todos tus jugadores, <em>a la vista.</em></h2>
+            <p>Así se ve Métrikas por dentro: tu plantel completo con el puntaje de cada jugador, y su ficha con evolución y logros, también desde el celular.</p>
+          </div>
+          <div className="appshot">
+            <figure className="appshot-browser">
+              <div className="appshot-bar" aria-hidden="true"><i /><i /><i /><span>app.metrikas.pro/players</span></div>
+              <img src="/assets/app-jugadores.webp" width="2400" height="1492" loading="lazy" decoding="async" alt="Pantalla Jugadores de Métrikas: ocho jugadores con su puntaje general, su posición y sus tres atributos principales." />
+            </figure>
+            <figure className="appshot-phone">
+              <img src="/assets/app-ficha.webp" width="1170" height="2532" loading="lazy" decoding="async" alt="Ficha de un jugador en el celular: puntaje, datos físicos y los seis atributos con barras de colores." />
+            </figure>
+          </div>
+          <p className="appshot-note">Pantallas reales de Métrikas con jugadores de ejemplo.</p>
+          <div className="appshot-cta"><button className="button" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button></div>
         </div>
       </section>
 

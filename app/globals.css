@@ -993,3 +993,26 @@ main.redesign-v26 > .section { padding-top:calc(136px + var(--band-r) * .5); }
 }
 @media (prefers-reduced-motion:reduce) { .walk__item { opacity:1 !important; } }
 .wp-card--row > div { display:grid; gap:.2em; min-width:0; }
+/* ─────────── Real app screens (replaces the calendar mockup) ─────────── */
+.redesign-v26 .appshot-section { background:radial-gradient(circle at 78% 10%,rgba(145,225,63,.1),transparent 30%),linear-gradient(145deg,#07152d,#030916); overflow:hidden; }
+.appshot-heading { margin-bottom:56px; }
+.appshot { position:relative; padding-bottom:3rem; }
+.appshot-browser { margin:0; overflow:hidden; border:1px solid rgba(255,255,255,.14); border-radius:1.25rem; background:#f4f6f1; box-shadow:0 40px 90px -20px rgba(0,0,0,.65),0 0 80px rgba(145,225,63,.08); }
+.appshot-bar { display:flex; align-items:center; gap:.5rem; padding:.7rem 1rem; background:#e9ede4; border-bottom:1px solid rgba(7,16,32,.08); }
+.appshot-bar i { width:.7rem; height:.7rem; border-radius:50%; background:#c4cbbf; }
+.appshot-bar span { margin-left:.8rem; padding:.2rem .9rem; border-radius:99px; background:#fff; color:#4f5d6c; font-size:.78rem; }
+.appshot-browser img { display:block; width:100%; height:auto; }
+.appshot-phone { position:absolute; right:-1.5%; bottom:0; width:clamp(200px,21%,270px); margin:0; padding:.45rem; border-radius:2.4rem; background:#02060f; box-shadow:0 30px 70px -10px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.14); transform:rotate(2deg); }
+.appshot-phone img { display:block; width:100%; height:auto; border-radius:2rem; }
+.appshot-note { margin:1.2rem 0 0; text-align:center; color:#8294a8; font-size:.85rem; }
+.appshot-cta { display:flex; justify-content:center; margin-top:1.6rem; }
+.appshot.reveal-item:not(.reveal-visible) .appshot-phone { opacity:0; transform:translateY(40px) rotate(2deg); }
+.appshot-phone { transition:opacity .8s cubic-bezier(.2,.75,.25,1) .25s, transform .8s cubic-bezier(.2,.75,.25,1) .25s; }
+@media (max-width:820px) {
+  .appshot-heading { margin-bottom:34px; }
+  .appshot { padding-bottom:0; }
+  .appshot-phone { position:relative; right:auto; width:min(62%,250px); margin:-5rem auto 0; }
+}
+@media (prefers-reduced-motion:reduce) { .appshot-phone { transition:none; } .appshot.reveal-item:not(.reveal-visible) .appshot-phone { opacity:1; transform:rotate(2deg); } }
+.redesign-v26 .appshot-section .section-heading h2 em { color:var(--lime); }
+.redesign-v26 .appshot-section .appshot-heading > p { color:#bacde0; }

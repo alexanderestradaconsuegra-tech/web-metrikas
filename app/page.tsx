@@ -544,7 +544,7 @@ export default function Home() {
 
       <section className="hero2" id="contenido-principal" tabIndex={-1}>
         <div className="hero2-photo" aria-hidden="true">
-          <img src="/assets/metrikas-hero-cancha.webp" alt="" width="972" height="941" fetchPriority="high" decoding="async" />
+          <img src="/assets/metrikas-hero-entrenador.webp" alt="" width="1774" height="887" fetchPriority="high" decoding="async" />
         </div>
         <div className="hero2-glow" aria-hidden="true" />
         <div className="container hero2-layout">

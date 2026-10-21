@@ -658,10 +658,10 @@ body {
 /* ───────────────────────── Hero v2 ─────────────────────────
    One self-contained block (the old .hero rules above are no longer used). */
 .redesign-v26 .hero2 { position:relative; isolation:isolate; min-height:100svh; display:grid; align-items:center; padding:150px 0 96px; overflow:hidden; background:var(--cosmic); }
-.hero2-photo { position:absolute; z-index:-2; top:0; right:0; bottom:0; width:66%; overflow:hidden; }
-.hero2-photo img { display:block; width:100%; height:100%; object-fit:cover; object-position:58% 50%; animation:hero2-zoom 22s ease-out both; }
+.hero2-photo { position:absolute; z-index:-2; top:0; right:0; bottom:0; width:100%; overflow:hidden; }
+.hero2-photo img { display:block; width:100%; height:100%; object-fit:cover; object-position:88% 50%; animation:hero2-zoom 22s ease-out both; }
 .hero2-photo::after { content:""; position:absolute; inset:0; background:
-  linear-gradient(90deg,var(--cosmic) 0%,rgba(3,9,22,.88) 16%,rgba(3,9,22,.4) 40%,transparent 66%),
+  linear-gradient(90deg,var(--cosmic) 0%,rgba(3,9,22,.92) 24%,rgba(3,9,22,.62) 44%,rgba(3,9,22,.12) 68%,transparent 84%),
   linear-gradient(0deg,var(--cosmic) 0%,rgba(3,9,22,.35) 16%,transparent 34%),
   linear-gradient(180deg,rgba(3,9,22,.5) 0%,transparent 20%); }
 .hero2-glow { position:absolute; z-index:-1; left:-8%; top:18%; width:640px; height:640px; border-radius:50%; background:rgba(145,225,63,.12); filter:blur(110px); pointer-events:none; }
@@ -690,21 +690,21 @@ body {
 .hero2-chip > span { width:38px; height:38px; display:grid; place-items:center; border-radius:12px; background:var(--lime); color:#071020; font-weight:900; }
 .hero2-chip small { display:block; color:#93a4b7; font-size:10px; font-weight:800; letter-spacing:.1em; }
 .hero2-chip strong { display:block; margin-top:2px; color:#fff; font-size:14px; font-weight:700; }
-.chip-confirm { right:1%; top:4%; }
-.chip-pay { right:30%; bottom:-4%; animation-delay:-3.2s; }
+.chip-confirm { right:27%; top:8%; }
+.chip-pay { right:20%; bottom:2%; animation-delay:-3.2s; }
 
 @keyframes hero2-in { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:none; } }
 @keyframes hero2-float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-7px); } }
 @keyframes hero2-zoom { from { transform:scale(1.06); } to { transform:scale(1); } }
 
 @media (max-width:1100px) {
-  .hero2-photo { width:78%; }
+  .hero2-photo { width:100%; }
   .chip-pay { display:none; }
 }
 @media (max-width:820px) {
   .redesign-v26 .hero2 { display:block; min-height:0; padding:0 0 64px; }
   .hero2-photo { position:relative; z-index:0; width:100%; height:min(62svh,500px); min-height:340px; }
-  .hero2-photo img { object-position:62% 52%; }
+  .hero2-photo img { object-position:86% 50%; }
   .hero2-photo::after { background:
     linear-gradient(0deg,var(--cosmic) 0%,rgba(3,9,22,.55) 26%,transparent 62%),
     linear-gradient(180deg,rgba(3,9,22,.7) 0%,transparent 30%); }

@@ -620,7 +620,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-card, .feature-card, .showcase-copy, .phone-stage, .exercise-visual, .mini-benefits article, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .testimonial-grid blockquote, .faq-item, .final-content"
+      ".section-heading, .compare-card, .feature-card, .showcase-copy, .phone-stage, .exercise-visual, .mini-benefits article, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
     revealTargets.forEach((target, index) => {
@@ -680,25 +680,27 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="hero" id="contenido-principal" tabIndex={-1}>
-        <div className="hero-media" aria-hidden="true">
-          <div className="hero-photo">
-            <img src="/assets/metrikas-hero-campo.jpg" alt="" width="736" height="981" fetchPriority="high" decoding="async" />
-          </div>
+      <section className="hero2" id="contenido-principal" tabIndex={-1}>
+        <div className="hero2-photo" aria-hidden="true">
+          <img src="/assets/metrikas-hero-cancha.webp" alt="" width="972" height="941" fetchPriority="high" decoding="async" />
         </div>
-        <div className="hero-image" /><div className="hero-grid" /><div className="hero-glow" />
-        <div className="container hero-layout">
-          <div className="hero-copy">
-            <h1>Dirige tu academia como un <em>club profesional.</em></h1>
-            <p>Software de gestión para academias de fútbol: jugadores, evaluaciones, asistencia, convocatorias, pagos y comunicación en una sola plataforma.</p>
-            <div className="hero-actions">
-              <button className="button hero-primary-action" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button>
-              <a className="hero-secondary-action" href="#producto">Ver cómo funciona <ArrowIcon /></a>
+        <div className="hero2-glow" aria-hidden="true" />
+        <div className="container hero2-layout">
+          <div className="hero2-copy">
+            <span className="hero2-eyebrow"><i />Software para academias de fútbol</span>
+            <h1>Deja los cuadernos y el WhatsApp. <em>Dirige tu academia desde un solo lugar.</em></h1>
+            <p>Cobros que se controlan solos, convocatorias con confirmación y la ficha de cada jugador, en el celular de todo tu equipo. Lista para usar en 20 minutos.</p>
+            <div className="hero2-actions">
+              <button className="button hero2-primary" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button>
+              <a className="hero2-secondary" href="#producto"><span className="play" aria-hidden="true">▶</span> Ver cómo funciona</a>
             </div>
-            <ul className="hero-proof" aria-label="Condiciones de la prueba"><li><CheckIcon />14 días gratis</li><li><CheckIcon />Sin contrato</li><li><CheckIcon />Cancela cuando quieras</li></ul>
+            <ul className="hero2-proof" aria-label="Condiciones de la prueba"><li><CheckIcon />14 días gratis</li><li><CheckIcon />Sin contrato</li><li><CheckIcon />Cancela cuando quieras</li></ul>
+          </div>
+          <div className="hero2-floats" aria-hidden="true">
+            <div className="hero2-chip chip-confirm"><span>✓</span><div><small>CONVOCATORIA · SÁB 10:00</small><strong>18 de 22 ya confirmaron</strong></div></div>
+            <div className="hero2-chip chip-pay"><span>$</span><div><small>CUOTA DE OCTUBRE</small><strong>Pagada · sin perseguir a nadie</strong></div></div>
           </div>
         </div>
-        <div className="scroll-hint"><span /> Descubre Metrikas</div>
       </section>
 
       <section className={signalPaused ? "signal-bar is-paused" : "signal-bar"} aria-label="Beneficios principales">
@@ -887,12 +889,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section testimonial-section">
+      <section className="section trust-section">
         <div className="container">
-          <div className="testimonial-label"><h2>Academias que ya evolucionan.</h2></div>
-          <div className="testimonial-grid">
-            <blockquote><div className="stars">★★★★★</div><p>“Ahora el cuerpo técnico tiene todo en el celular y tomamos mejores decisiones en los entrenamientos.”</p><footer><span>DT</span><div><strong>Director Técnico</strong><small>Leones de Cartagena FC</small></div></footer></blockquote>
-            <blockquote><div className="stars">★★★★★</div><p>“Los jugadores pueden ver su ficha y convocatoria. Eso generó más compromiso y mejoró la asistencia.”</p><footer><span>EP</span><div><strong>Entrenador Principal</strong><small>Dragones de Macul</small></div></footer></blockquote>
+          <div className="section-heading centered trust-heading"><h2>Empieza sin riesgo.<br /><em>Y con alguien que contesta.</em></h2><p>Métrikas se usa cada semana en una academia real de Santiago y se mejora con lo que ahí se necesita.</p></div>
+          <div className="trust-grid">
+            <article><span><CheckIcon /></span><h3>14 días gratis</h3><p>Acceso completo para probar con tu propia academia, sin tarjeta de por medio.</p></article>
+            <article><span><CheckIcon /></span><h3>Sin contrato</h3><p>Cancelas cuando quieras y mantienes el acceso hasta el final del período pagado.</p></article>
+            <article><span><CheckIcon /></span><h3>Datos aislados</h3><p>Cada academia ve solo lo suyo, y cada profesor solo su categoría.</p></article>
+            <article><span><CheckIcon /></span><h3>Soporte por WhatsApp</h3><p>Escríbenos y te respondemos directo, sin tickets ni bots.</p></article>
           </div>
         </div>
       </section>

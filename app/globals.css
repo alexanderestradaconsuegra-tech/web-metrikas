@@ -1042,3 +1042,4 @@ main.redesign-v26 > .section { padding-top:calc(136px + var(--band-r) * .5); }
   .screens-item:nth-child(2) { margin-top:0; }
 }
 @media (prefers-reduced-motion:reduce) { .screens-item { transition:none; } .screens-grid.reveal-item:not(.reveal-visible) .screens-item { opacity:1; transform:none; } }
+.screens-grid:focus-visible { outline:3px solid #397d00; outline-offset:4px; border-radius:1rem; }

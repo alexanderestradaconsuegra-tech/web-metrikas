@@ -463,7 +463,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .appshot, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .appshot, .screens-grid, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
     revealTargetsList = revealTargets;
@@ -609,6 +609,33 @@ export default function Home() {
           </div>
           <p className="appshot-note">Pantallas reales de Métrikas con jugadores de ejemplo.</p>
           <div className="appshot-cta"><button className="button" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button></div>
+        </div>
+      </section>
+
+      <section className="section screens-section" id="pantallas">
+        <div className="container">
+          <div className="section-heading centered screens-heading">
+            <h2>Lo que importa, <em>cada día.</em></h2>
+            <p>Del inicio al tablero táctico y los logros de cada jugador. Todo desde el celular, en pantallas reales de Métrikas.</p>
+          </div>
+          <ul className="screens-grid">
+            <li className="screens-item">
+              <figure className="screens-phone"><img src="/assets/app-hoy.webp" width="1170" height="2532" loading="lazy" decoding="async" alt="Inicio de Métrikas en el celular: entrenamientos y partidos de hoy, alerta de pagos vencidos y jugadores que requieren atención." /></figure>
+              <h3>Inicio con lo de hoy</h3>
+              <p>Al abrir la app ves los entrenamientos y partidos del día, los pagos vencidos y los jugadores que necesitan atención.</p>
+            </li>
+            <li className="screens-item">
+              <figure className="screens-phone"><img src="/assets/app-tactica.webp" width="1170" height="2532" loading="lazy" decoding="async" alt="Tablero táctico en el celular: formación 4-3-3 con flechas de pase y movimiento dibujadas sobre la cancha." /></figure>
+              <h3>Tablero táctico</h3>
+              <p>Dibuja pases y movimientos, y míralos animados antes de explicárselos al equipo. Guarda tus jugadas.</p>
+            </li>
+            <li className="screens-item">
+              <figure className="screens-phone"><img src="/assets/app-logros.webp" width="1170" height="2532" loading="lazy" decoding="async" alt="Sección de logros de un jugador: racha de 5 entrenamientos, 10 entrenamientos, mes perfecto y mejor evaluación." /></figure>
+              <h3>Logros que motivan</h3>
+              <p>Rachas, mes perfecto y mejor evaluación: cada jugador ve cuánto ha avanzado y qué sigue.</p>
+            </li>
+          </ul>
+          <p className="appshot-note screens-note">Pantallas reales de Métrikas con jugadores de ejemplo.</p>
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import PhoneWalkthrough from "./PhoneWalkthrough";
 
 type Player = { id: number; label: string; x: number; y: number };
 
@@ -175,24 +176,6 @@ function TacticalBoard() {
         ))}
       </div>
       <div className="tactics-foot"><span>Arrastra los jugadores para ajustar la táctica</span><strong>11 convocados</strong></div>
-    </div>
-  );
-}
-
-function CalendarPhone() {
-  return (
-    <div className="phone phone-calendar" aria-hidden="true">
-      <div className="phone-notch" />
-      <div className="phone-screen">
-        <div className="phone-status"><span>9:41</span><span>● ●</span></div>
-        <div className="app-brand"><b>M</b><span>Métrikas</span><i /></div>
-        <div className="app-title"><small>AGOSTO 2026</small><h4>Tu calendario</h4></div>
-        <div className="week-row"><span>L<small>10</small></span><span>M<small>11</small></span><span className="active">M<small>12</small></span><span>J<small>13</small></span><span>V<small>14</small></span></div>
-        <div className="event-card green"><small>18:30 · SUB 15</small><strong>Entrenamiento técnico</strong><span>Cancha 2 · 18 confirmados</span></div>
-        <div className="event-card blue"><small>20:00 · SUB 17</small><strong>Preparación física</strong><span>Gimnasio · 16 confirmados</span></div>
-        <div className="event-card amber"><small>SÁBADO · 10:00</small><strong>Partido vs. Cóndores FC</strong><span>Estadio Municipal</span></div>
-        <div className="phone-nav"><span>⌂<small>Inicio</small></span><span className="on">□<small>Calendario</small></span><span>◎<small>Equipo</small></span></div>
-      </div>
     </div>
   );
 }
@@ -593,6 +576,8 @@ export default function Home() {
         </div>
       </section>
 
+      <PhoneWalkthrough onDemo={() => setDemoOpen(true)} />
+
       <section className="section feature-section" id="caracteristicas">
         <div className="container">
           <div className="section-heading centered">
@@ -607,29 +592,6 @@ export default function Home() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      <section className="section product-section" id="producto">
-        <div className="container">
-          <div className="section-heading product-heading">
-            <h2>Diseñada para la cancha.<br /><em>Lista para dirigir.</em></h2>
-            <p>Información clara para el cuerpo técnico, los jugadores y las familias. Sin procesos complicados.</p>
-          </div>
-
-          <article className="showcase-row">
-            <div className="showcase-copy">
-              <h3>Planifica cada evento con tranquilidad.</h3>
-              <p>Partidos, entrenamientos y torneos en un solo lugar. Todo el equipo ve el calendario actualizado en tiempo real.</p>
-              <ul><li>Crea eventos por fecha, hora y categoría</li><li>Notificaciones push automáticas</li><li>Reprograma y avisa a todos al instante</li></ul>
-              <button className="inline-cta" onClick={() => setDemoOpen(true)}>Probar este módulo <ArrowIcon /></button>
-            </div>
-            <div className="phone-stage calendar-stage">
-              <span className="stage-ring" /><span className="stage-grid" />
-              <CalendarPhone />
-              <div className="notify-card"><span>✓</span><div><small>CONFIRMACIÓN RECIBIDA</small><strong>18 jugadores asistirán</strong></div></div>
-            </div>
-          </article>
         </div>
       </section>
 

@@ -16,7 +16,9 @@
     "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate"
   },
   "dependencies": {
+    "@fontsource-variable/host-grotesk": "^5.3.0",
     "drizzle-orm": "0.45.2",
+    "gsap": "^3.15.0",
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"
@@ -40,5 +42,5 @@
     "wrangler": "4.92.0"
   },
   "type": "module",
-  "displayName": "M\u00e9trikas \u2014 Gesti\u00f3n para Academias de F\u00fatbol"
+  "displayName": "Métrikas — Gestión para Academias de Fútbol"
 }

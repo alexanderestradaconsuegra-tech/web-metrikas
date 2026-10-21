@@ -1454,3 +1454,19 @@ body {
 @media (max-width:980px) { .module-index-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 40px; margin-top:48px; } }
 @media (max-width:640px) { .module-index-list { grid-template-columns:1fr; margin-top:36px; } .module-index-item { padding:22px 0; gap:16px; } .module-index-item h3 { font-size:19px; } }
 @media (prefers-reduced-motion:reduce) { .module-index-icon,.module-index-icon svg { transition:none; } .module-index-item:hover .module-index-icon { transform:none; } }
+
+/* ─────────── Player card + achievements ─────────── */
+.game-card-wrap .hero2-chip { z-index:4; }
+.game-card-wrap .ach-1 { left:-4%; top:44%; }
+.game-card-wrap .ach-2 { right:-2%; bottom:22%; animation-delay:-3.4s; }
+.hero2-chip svg { width:20px; height:20px; fill:none; stroke:#071020; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.game-card-note { position:absolute; z-index:4; left:0; right:0; bottom:6px; margin:0; text-align:center; color:#7f90a4; font-size:12px; }
+@media (max-width:1100px) { .game-card-wrap .ach-1 { left:6%; } .game-card-wrap .ach-2 { right:6%; } .game-card-wrap .chip-pay { display:none; } }
+@media (max-width:640px) {
+  .game-card-wrap .ach-1 { left:auto; right:4px; top:78px; bottom:auto; }
+  .game-card-wrap .ach-2 { display:none; }
+  .game-card-wrap .hero2-chip { padding:10px 14px 10px 10px; }
+  .game-card-wrap .hero2-chip strong { font-size:13px; }
+}
+
+.card-copy .button { margin-top:26px; }

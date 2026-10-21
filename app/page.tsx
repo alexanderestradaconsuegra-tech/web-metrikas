@@ -25,7 +25,7 @@ const features = [
   ["M5 5h14v14H5zM5 9h14M9 3v4M15 3v4m-6 9 2 2 4-4", "Asistencia", "Calendario publicado y saber quién llega antes de pisar la cancha."],
   ["M3 6h18v12H3zM3 10h18M7 15h4", "Pagos automáticos", "Cuotas cada mes y deudas claras, sin hojas de cálculo."],
   ["M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6zM9.5 12l2 2 3.5-4", "Roles y accesos", "Cada profesor ve solo su categoría. Tú ves todo."],
-  ["M3 12h4l2-6 4 12 2-6h6", "Seguimiento físico", "Métricas y observaciones para acompañar a cada jugador."],
+  ["M3 12h4l2-6 4 12 2-6h6", "Seguimiento físico", "Métricas, ejercicios con video y observaciones de cada jugador."],
   ["M6 17h12l-1.5-2V10a4.5 4.5 0 0 0-9 0v5zM10 20h4", "Notificaciones push", "Convocatorias y avisos directo al celular."],
   ["M4 7h16v12H4zM4 10h16M16 14h4", "Finanzas", "Ingresos y gastos de tu academia en un solo lugar."],
 ];
@@ -198,62 +198,6 @@ function CalendarPhone() {
   );
 }
 
-function PlayerPhone() {
-  const attributes = [
-    { label: "Velocidad", value: 82, color: "#f3a30b" },
-    { label: "Fuerza", value: 81, color: "#ef4751" },
-    { label: "Técnica", value: 69, color: "#347ee9" },
-    { label: "Resistencia", value: 85, color: "#17b97b" },
-    { label: "Potencia", value: 81, color: "#ff7422" },
-    { label: "Agilidad", value: 79, color: "#914ee8" },
-  ];
-
-  return (
-    <div className="player-device" aria-hidden="true">
-      <div className="player-device-screen">
-        <div className="player-system-bar"><span>9:41</span><span>● 5G ▮▮▮</span></div>
-        <div className="player-profile-hero">
-          <div className="player-toolbar">
-            <span className="player-back">←</span>
-            <strong>Perfil del Jugador</strong>
-            <div><span>↓</span><span>✎</span></div>
-          </div>
-          <div className="player-identity">
-            <img className="player-profile-avatar" src="/assets/profile-lucas-cuevas.webp" width="62" height="62" loading="lazy" decoding="async" alt="Retrato ilustrativo de Lucas Cuevas, futbolista juvenil" />
-            <div className="player-name">
-              <h4>Lucas Cuevas</h4>
-              <span>Lateral Izquierdo</span>
-              <p>11 años <i /> Sub-12</p>
-            </div>
-            <div className="player-score-ring"><strong>80</strong><small>Score</small></div>
-          </div>
-        </div>
-
-        <div className="player-bio-grid">
-          <div><span>↕</span><p><small>ALTURA</small><strong>157 cm</strong></p></div>
-          <div><span>◇</span><p><small>PESO</small><strong>46 kg</strong></p></div>
-          <div><span>□</span><p><small>NACIMIENTO</small><strong>30 abr 2015</strong></p></div>
-          <div><span>☆</span><p><small>PIERNA HÁBIL</small><strong>Izquierda</strong></p></div>
-        </div>
-
-        <div className="player-attributes-panel">
-          <div className="attributes-heading"><div><strong>Atributos físicos y técnicos</strong><small>31 de agosto de 2026</small></div><span>Última evaluación</span></div>
-          <div className="attributes-grid">
-            {attributes.map((attribute) => (
-              <div className="attribute-item" key={attribute.label}>
-                <div><span>{attribute.label}</span><strong style={{ color: attribute.color }}>{attribute.value}</strong></div>
-                <i><b style={{ width: `${attribute.value}%`, background: attribute.color }} /></i>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="player-device-nav"><span>⌂<small>Inicio</small></span><span className="active">♙<small>Jugadores</small></span><span>♡<small>Seguimiento</small></span><span>◎<small>Análisis</small></span></div>
-      </div>
-    </div>
-  );
-}
-
 function GameCard() {
   return (
     <div className="game-card-wrap">
@@ -262,6 +206,9 @@ function GameCard() {
         <div className="card-shine" />
       </figure>
       <span className="orbit orbit-one" /><span className="orbit orbit-two" />
+      <div className="hero2-chip ach-1" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="M12 3c1 3 4 4.5 4 8a4 4 0 0 1-8 0c0-1.5.6-2.5 1.5-3.5C10 9 11 6 12 3Z" /></svg></span><div><small>LOGRO DESBLOQUEADO</small><strong>Racha de 5 entrenamientos</strong></div></div>
+      <div className="hero2-chip ach-2" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="M13 3 5 14h6l-1 7 8-11h-6z" /></svg></span><div><small>NUEVO RÉCORD</small><strong>Su mejor evaluación</strong></div></div>
+      <p className="game-card-note">Ficha y logros de ejemplo</p>
     </div>
   );
 }
@@ -535,7 +482,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-board, .compare-cta, .module-index-item, .showcase-copy, .phone-stage, .exercise-visual, .mini-benefits article, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .module-index-item, .showcase-copy, .phone-stage, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
     revealTargetsList = revealTargets;
@@ -673,7 +620,6 @@ export default function Home() {
 
           <article className="showcase-row">
             <div className="showcase-copy">
-              <span className="module-index">MÓDULO 01 · CALENDARIO</span>
               <h3>Planifica cada evento con tranquilidad.</h3>
               <p>Partidos, entrenamientos y torneos en un solo lugar. Todo el equipo ve el calendario actualizado en tiempo real.</p>
               <ul><li>Crea eventos por fecha, hora y categoría</li><li>Notificaciones push automáticas</li><li>Reprograma y avisa a todos al instante</li></ul>
@@ -685,63 +631,22 @@ export default function Home() {
               <div className="notify-card"><span>✓</span><div><small>CONFIRMACIÓN RECIBIDA</small><strong>18 jugadores asistirán</strong></div></div>
             </div>
           </article>
-
-          <article className="showcase-row reverse">
-            <div className="showcase-copy">
-              <span className="module-index">MÓDULO 02 · JUGADORES</span>
-              <h3>Conoce el estado real de cada jugador.</h3>
-              <p>Perfil individual con evaluaciones físicas, historial de actividad y evolución semana a semana.</p>
-              <ul><li>Score general con evaluaciones reales</li><li>Identifica quién necesita atención</li><li>Filtra por posición, categoría o rendimiento</li></ul>
-              <button className="inline-cta" onClick={() => setDemoOpen(true)}>Probar perfiles de jugador <ArrowIcon /></button>
-              <small className="showcase-example-note">Pantalla de ejemplo · Lucas y sus datos son ficticios.</small>
-            </div>
-            <div className="phone-stage player-stage">
-              <span className="player-stage-orbit orbit-a" /><span className="player-stage-orbit orbit-b" />
-              <PlayerPhone />
-              <div className="player-insight-card"><span>6</span><div><small>ATRIBUTOS MEDIDOS</small><strong>Perfil digital actualizado</strong></div></div>
-            </div>
-          </article>
         </div>
       </section>
 
-      <section className="section exercise-section" id="ejercicios">
-        <div className="container exercise-layout">
-          <div className="exercise-visual">
-            <div className="training-photo" />
-            <div className="video-tile">
-              <div className="video-top"><span>EJERCICIO 04</span><b>02:18</b></div>
-              <button type="button" aria-label="Solicitar una demo para ver los ejercicios en Métrikas" onClick={() => setDemoOpen(true)}>▶</button>
-              <div><strong>Sprint de 20 metros</strong><span>Velocidad · Cronometrado</span></div>
-            </div>
-            <div className="attempt-card"><small>ÚLTIMO REGISTRO</small><strong>3.12 s</strong><span>−0.24 s desde julio</span></div>
-          </div>
-          <div className="section-heading exercise-copy">
-            <h2>El deportista sabe <em>exactamente</em> cómo entrenar.</h2>
-            <p>Cada ejercicio incluye un video guía para ejecutar la técnica correcta. Sprint, fuerza, pliometría y agilidad, documentados con su unidad de medida.</p>
-            <div className="mini-benefits">
-              <article><span>▶</span><div><h4>Video por ejercicio</h4><p>La técnica correcta, visible directo en la app.</p></div></article>
-              <article><span>↗</span><div><h4>Registro de intentos</h4><p>Guarda cada resultado y compara sesión a sesión.</p></div></article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section player-card-section">
+      <section className="section player-card-section" id="ficha">
         <div className="container player-card-layout">
           <div className="section-heading card-copy">
-            <h2>Estadísticas estilo videojuego <em>con datos reales.</em></h2>
-            <p className="card-lead">Convierte cada evaluación en una experiencia que motive a tus jugadores. Cada alumno recibe una ficha personal con sus datos reales, seis atributos, un rating general y una insignia que representa el nivel alcanzado.</p>
-            <p>La ficha evoluciona con cada evaluación: el jugador puede verla desde su celular, los padres pueden comprobar su crecimiento y la academia demuestra con datos el trabajo realizado.</p>
+            <h2>Tus jugadores van a querer <em>mostrar su ficha.</em></h2>
+            <p className="card-lead">Cada evaluación se convierte en una carta personal con seis atributos y un nivel que sube con el esfuerzo. Los padres ven el avance real y los jugadores entrenan para superar su propia ficha.</p>
             <ul className="green-checks">
-              <li>Velocidad, Fuerza, Técnica, Resistencia, Potencia y Agilidad</li>
-              <li>Rating general que evoluciona con su rendimiento</li>
-              <li>Nivel <strong>PRO</strong> con OVR menor a 75</li>
-              <li>Nivel <strong>TOP</strong> desde OVR 75</li>
-              <li>Nivel <strong>ELITE</strong> desde OVR 88</li>
-              <li>Descargable como imagen para compartir con los padres</li>
+              <li>Velocidad, fuerza, técnica, resistencia, potencia y agilidad</li>
+              <li>Niveles PRO, TOP y ELITE que se ganan entrenando</li>
+              <li>Logros por constancia: rachas, mes perfecto y regreso tras una lesión</li>
+              <li>Se descarga como imagen para compartir con las familias</li>
             </ul>
-            <p>Tus alumnos no entrenan solamente para mejorar un número. Entrenan para superar su ficha, subir de nivel y demostrar hasta dónde pueden llegar.</p>
             <p className="card-closing">Eso es compromiso que tú no tienes que exigir. Se genera solo.</p>
+            <button className="button" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button>
           </div>
           <GameCard />
         </div>

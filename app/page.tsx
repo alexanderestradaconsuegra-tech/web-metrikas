@@ -618,7 +618,7 @@ export default function Home() {
             <h2>Lo que importa, <em>cada día.</em></h2>
             <p>Del inicio al tablero táctico y los logros de cada jugador. Todo desde el celular, en pantallas reales de Métrikas.</p>
           </div>
-          <ul className="screens-grid">
+          <ul className="screens-grid" tabIndex={0} aria-label="Pantallas de Métrikas. Desliza para ver más.">
             <li className="screens-item">
               <figure className="screens-phone"><img src="/assets/app-hoy.webp" width="1170" height="2532" loading="lazy" decoding="async" alt="Inicio de Métrikas en el celular: entrenamientos y partidos de hoy, alerta de pagos vencidos y jugadores que requieren atención." /></figure>
               <h3>Inicio con lo de hoy</h3>

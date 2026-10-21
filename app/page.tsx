@@ -53,13 +53,6 @@ const included = [
   "Español, inglés y portugués",
 ];
 
-const performance = [
-  { label: "Velocidad", icon: "↻", before: 72, after: 91, accent: "orange" },
-  { label: "Técnica", icon: "◎", before: 68, after: 88, accent: "blue" },
-  { label: "Resistencia", icon: "↗", before: 74, after: 89, accent: "green" },
-  { label: "Agilidad", icon: "♙", before: 70, after: 90, accent: "purple" },
-];
-
 const monthlyProgress = [
   { month: "Feb", before: 64, after: 74 },
   { month: "Mar", before: 67, after: 80 },
@@ -482,7 +475,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-board, .compare-cta, .module-index-item, .showcase-copy, .phone-stage, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .module-index-item, .showcase-copy, .phone-stage, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
     revealTargetsList = revealTargets;
@@ -653,44 +646,34 @@ export default function Home() {
       </section>
 
       <section className="section progress-section" id="progreso">
-        <div className="container progress-layout">
-          <div className="section-heading progress-heading">
-            <span className="progress-label">PROGRESO</span>
+        <div className="container progress2">
+          <div className="section-heading progress2-copy">
             <h2>Números que se entienden <em>a primera vista.</em></h2>
             <p>El progreso deja de ser una percepción. Cada evaluación se transforma en evidencia clara para el entrenador, el jugador y su familia.</p>
+            <dl className="progress2-kpis">
+              <div><dt>Progreso del equipo en 6 meses</dt><dd>+22<em>%</em></dd></div>
+              <div><dt>Jugadores nivel TOP</dt><dd>14<em>/22</em></dd></div>
+              <div><dt>Asistencia promedio a entrenos</dt><dd>94<em>%</em></dd></div>
+            </dl>
           </div>
-          <div className="performance-dashboard" aria-hidden="true">
-            <p className="sample-label">Vista de ejemplo · Datos ilustrativos</p>
-            <div className="dashboard-kpis">
-              <article className="dashboard-kpi kpi-green"><span className="kpi-icon">↗</span><small>PROGRESO GENERAL</small><strong>+22<em>%</em></strong><p>Score promedio del equipo en 6 meses</p></article>
-              <article className="dashboard-kpi kpi-amber"><span className="kpi-icon">↻</span><small>JUGADORES TOP</small><strong>14<em>/22</em></strong><p>Desde 75 pts en evaluación general</p></article>
-              <article className="dashboard-kpi kpi-purple"><span className="kpi-icon">♙</span><small>ASISTENCIA</small><strong>94<em>%</em></strong><p>Promedio de asistencia a entrenos</p></article>
-            </div>
-            <div className="trend-panel">
-              <div className="trend-head"><div><small>EVOLUCIÓN MEDIDA</small><strong>Compara evaluaciones</strong></div><div className="trend-legend"><span><i /> Evaluación anterior</span><span><i /> Evaluación actual</span></div></div>
-              <div className="monthly-chart">
-                {monthlyProgress.map((month, index) => (
-                  <div className="month-column" key={month.month}>
-                    <div className="month-bars">
-                      <span className="month-bar month-before" style={{height:`${month.before}%`}} />
-                      <span className="month-bar month-after" style={{height:`${month.after}%`}}>{index === monthlyProgress.length - 1 && <b>+16</b>}</span>
-                    </div>
-                    <small>{month.month}</small>
+          <figure className="progress2-chart">
+            <figcaption>
+              <strong>Evolución medida</strong>
+              <span className="p2-legend"><i className="before" />Evaluación anterior<i className="after" />Evaluación actual</span>
+            </figcaption>
+            <div className="p2-bars" role="img" aria-label="Gráfico de ejemplo: el puntaje promedio del equipo en la evaluación actual sube de 74 en febrero a 94 en julio.">
+              {monthlyProgress.map((month, index) => (
+                <div className="p2-col" key={month.month} style={{ ["--i" as string]: index }}>
+                  <div className="p2-pair">
+                    <span className="p2-bar before" style={{ height: `${month.before}%` }} />
+                    <span className="p2-bar after" style={{ height: `${month.after}%` }}>{index === monthlyProgress.length - 1 && <b>+{month.after - month.before}</b>}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="metric-card-grid">
-              {performance.map((metric) => (
-                <article className={`metric-card metric-${metric.accent}`} key={metric.label}>
-                  <div className="metric-card-title"><span>{metric.icon}</span><strong>{metric.label}</strong></div>
-                  <div className="metric-score"><b>{metric.after}</b><em>+{metric.after-metric.before}</em></div>
-                  <div className="metric-track"><span style={{width:`${metric.after}%`}} /></div>
-                  <small>Desde {metric.before} pts hasta {metric.after} pts</small>
-                </article>
+                  <small>{month.month}</small>
+                </div>
               ))}
             </div>
-          </div>
+            <p className="p2-sample">Vista de ejemplo · Datos ilustrativos</p>
+          </figure>
         </div>
       </section>
 

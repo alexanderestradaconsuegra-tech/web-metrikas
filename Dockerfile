@@ -5,7 +5,8 @@ WORKDIR /app
 COPY package.json package-lock.json .npmrc ./
 RUN npm ci --no-audit --no-fund
 COPY . .
-RUN npx vinext build
+# --precompress writes .br/.gz next to each JS/CSS asset; the server sends them as-is.
+RUN npx vinext build --precompress
 
 FROM node:22-bookworm-slim
 WORKDIR /app

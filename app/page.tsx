@@ -55,15 +55,6 @@ const included = [
   "Español, inglés y portugués",
 ];
 
-const monthlyProgress = [
-  { month: "Feb", before: 64, after: 74 },
-  { month: "Mar", before: 67, after: 80 },
-  { month: "Abr", before: 70, after: 83 },
-  { month: "May", before: 72, after: 86 },
-  { month: "Jun", before: 76, after: 90 },
-  { month: "Jul", before: 78, after: 94 },
-];
-
 const access = [
   ["Dueño o entrenador principal", "Todo: categorías, pagos, suscripción y accesos", "Nada se le oculta"],
   ["Profesor de categoría", "Su plantel, sus partidos y sus entrenamientos", "Pagos, configuración ni otras categorías"],
@@ -138,7 +129,7 @@ function CheckIcon() {
 function Brand() {
   return (
     <a className="brand" href="#inicio" aria-label="Metrikas, inicio">
-      <img src="/assets/metrikas-logo-transparent.png" alt="Metrikas" />
+      <img src="/assets/metrikas-logo.webp" alt="Metrikas" width="420" height="67" decoding="async" />
     </a>
   );
 }
@@ -440,6 +431,21 @@ function InstallModal({ onClose }: { onClose: () => void }) {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [stickyCta, setStickyCta] = useState(false);
+
+  useEffect(() => {
+    const hero = document.getElementById("contenido-principal");
+    const stops = ["precios", "cierre"].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    if (!hero) return;
+    let pastHero = false;
+    const nearStop = new Set<Element>();
+    const update = () => setStickyCta(pastHero && nearStop.size === 0);
+    const heroObs = new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; update(); });
+    const stopObs = new IntersectionObserver((entries) => { entries.forEach((e) => (e.isIntersecting ? nearStop.add(e.target) : nearStop.delete(e.target))); update(); });
+    heroObs.observe(hero);
+    stops.forEach((el) => stopObs.observe(el));
+    return () => { heroObs.disconnect(); stopObs.disconnect(); };
+  }, []);
   const [demoOpen, setDemoOpen] = useState(false);
   const [installOpen, setInstallOpen] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<CheckoutPlan | null>(null);
@@ -661,38 +667,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section progress-section" id="progreso">
-        <div className="container progress2">
-          <div className="section-heading progress2-copy">
-            <h2>Números que se entienden <em>a primera vista.</em></h2>
-            <p>El progreso deja de ser una percepción. Cada evaluación se transforma en evidencia clara para el entrenador, el jugador y su familia.</p>
-            <dl className="progress2-kpis">
-              <div><dt>Progreso del equipo en 6 meses</dt><dd>+22<em>%</em></dd></div>
-              <div><dt>Jugadores nivel TOP</dt><dd>14<em>/22</em></dd></div>
-              <div><dt>Asistencia promedio a entrenos</dt><dd>94<em>%</em></dd></div>
-            </dl>
-          </div>
-          <figure className="progress2-chart">
-            <figcaption>
-              <strong>Evolución medida</strong>
-              <span className="p2-legend"><i className="before" />Evaluación anterior<i className="after" />Evaluación actual</span>
-            </figcaption>
-            <div className="p2-bars" role="img" aria-label="Gráfico de ejemplo: el puntaje promedio del equipo en la evaluación actual sube de 74 en febrero a 94 en julio.">
-              {monthlyProgress.map((month, index) => (
-                <div className="p2-col" key={month.month} style={{ ["--i" as string]: index }}>
-                  <div className="p2-pair">
-                    <span className="p2-bar before" style={{ height: `${month.before}%` }} />
-                    <span className="p2-bar after" style={{ height: `${month.after}%` }}>{index === monthlyProgress.length - 1 && <b>+{month.after - month.before}</b>}</span>
-                  </div>
-                  <small>{month.month}</small>
-                </div>
-              ))}
-            </div>
-            <p className="p2-sample">Vista de ejemplo · Datos ilustrativos</p>
-          </figure>
-        </div>
-      </section>
-
       <section className="section roles-section">
         <div className="container">
           <div className="section-heading centered roles-heading"><h2>Cada persona ve solo<br /><em>lo que necesita.</em></h2><p>Tú controlas quién accede a qué, sin contraseñas compartidas ni datos expuestos.</p></div>
@@ -728,8 +702,8 @@ export default function Home() {
           <div className="section-heading pricing-heading"><h2>Todo incluido.<br /><em>Sin sorpresas.</em></h2><p>Sin límite de jugadores ni módulos. Menos de lo que cuesta alquilar una cancha.</p></div>
           <div className="pricing-layout">
             <div className="price-cards">
-              <article className="price-card"><span className="plan-label">PLAN MENSUAL</span><div className="price"><b>$14.250</b><span>CLP / mes</span></div><p>Por academia · Acceso por 30 días</p><button className="price-button" type="button" aria-haspopup="dialog" aria-controls="checkout-payment-modal" data-checkout-plan="monthly" onClick={() => setCheckoutPlan("monthly")}>Continuar al pago mensual <ArrowIcon /></button></article>
-              <article className="price-card featured"><span className="saving">AHORRA 30%</span><span className="plan-label">PLAN ANUAL</span><div className="price"><b>$119.700</b><span>CLP / año</span></div><p>Pago anual único · Equivale a $9.975 mensuales</p><button className="price-button" type="button" aria-haspopup="dialog" aria-controls="checkout-payment-modal" data-checkout-plan="annual" onClick={() => setCheckoutPlan("annual")}>Continuar al pago anual <ArrowIcon /></button></article>
+              <article className="price-card"><span className="plan-label">PLAN MENSUAL</span><div className="price"><b>$14.250</b><span>CLP / mes</span></div><p className="price-day">Unos <b>$475 al día</b> por toda tu academia</p><p>Por academia · Acceso por 30 días</p><button className="price-button" type="button" aria-haspopup="dialog" aria-controls="checkout-payment-modal" data-checkout-plan="monthly" onClick={() => setCheckoutPlan("monthly")}>Continuar al pago mensual <ArrowIcon /></button></article>
+              <article className="price-card featured"><span className="saving">AHORRA 30%</span><span className="plan-label">PLAN ANUAL</span><div className="price"><b>$119.700</b><span>CLP / año</span></div><p className="price-day">Unos <b>$328 al día</b> por toda tu academia</p><p>Pago anual único · Equivale a $9.975 mensuales</p><button className="price-button" type="button" aria-haspopup="dialog" aria-controls="checkout-payment-modal" data-checkout-plan="annual" onClick={() => setCheckoutPlan("annual")}>Continuar al pago anual <ArrowIcon /></button></article>
             </div>
             <div className="included-card"><small>AMBOS PLANES INCLUYEN</small><div className="included-grid">{included.map((item) => <span key={item}><i>✓</i>{item}</span>)}</div><div className="secure-line"><span>Pago seguro</span><span>Sin contratos</span><span>Cancela cuando quieras</span></div></div>
           </div>
@@ -745,8 +719,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="final-cta">
-        <div className="final-photo" /><div className="final-overlay" />
+      <section className="final-cta" id="cierre">
+        <div className="final-photo"><img src="/assets/metrikas-training.webp" alt="" loading="lazy" decoding="async" /></div><div className="final-overlay" />
         <div className="container final-content"><h2>Tu academia puede estar <em>funcionando hoy.</em></h2><p>En menos de 20 minutos puedes tener tu primera categoría y convocatoria listas. Sin contrato. Sin complicaciones.</p><div><button className="button" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button><a className="email-link" href="mailto:info@metrikas.pro?subject=Quiero usar Metrikas en mi academia">info@metrikas.pro</a></div></div>
       </section>
 
@@ -756,8 +730,12 @@ export default function Home() {
       </footer>
 
       <a className="whatsapp-float" href="https://wa.me/56992103974?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Metrikas%20para%20mi%20academia" aria-label="Contactar a Metrikas por WhatsApp">
-        <img src="/assets/whatsapp-original.png" alt="" width="62" height="62" decoding="async" />
+        <img src="/assets/whatsapp.webp" alt="" width="62" height="62" loading="lazy" decoding="async" />
       </a>
+      <div className={stickyCta ? "sticky-cta is-on" : "sticky-cta"} aria-hidden={!stickyCta}>
+        <div><strong>14 días gratis</strong><span>Sin tarjeta · Sin contrato</span></div>
+        <button className="button" onClick={() => setDemoOpen(true)} tabIndex={stickyCta ? 0 : -1}>Probar gratis</button>
+      </div>
       {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
       {installOpen && <InstallModal onClose={() => setInstallOpen(false)} />}
       {checkoutPlan && <CheckoutModal plan={checkoutPlan} onClose={() => setCheckoutPlan(null)} />}

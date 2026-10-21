@@ -6,7 +6,7 @@ export default function LegalLayout({ children }: { children: ReactNode }) {
     <div className="legal-shell">
       <header className="legal-header">
         <a className="legal-brand" href="/" aria-label="Volver a Métrikas">
-          <img src="/assets/metrikas-logo-transparent.png" alt="Métrikas" />
+          <img src="/assets/metrikas-logo.webp" alt="Métrikas" width="420" height="67" decoding="async" />
         </a>
         <nav aria-label="Navegación legal">
           <a href="/legal">Centro legal</a>

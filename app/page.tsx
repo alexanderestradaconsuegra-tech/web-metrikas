@@ -1,0 +1,940 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+type Player = { id: number; label: string; x: number; y: number };
+
+const initialPlayers: Player[] = [
+  { id: 1, label: "ARQ", x: 50, y: 89 },
+  { id: 2, label: "LI", x: 15, y: 69 },
+  { id: 3, label: "DFC", x: 39, y: 73 },
+  { id: 4, label: "DFC", x: 61, y: 73 },
+  { id: 5, label: "LD", x: 85, y: 69 },
+  { id: 6, label: "MC", x: 28, y: 49 },
+  { id: 7, label: "MC", x: 50, y: 55 },
+  { id: 8, label: "MC", x: 72, y: 49 },
+  { id: 9, label: "EI", x: 20, y: 25 },
+  { id: 10, label: "DC", x: 50, y: 16 },
+  { id: 11, label: "ED", x: 80, y: 25 },
+];
+
+const features = [
+  ["01", "Jugadores y categorías", "Perfiles completos, filtros y seguimiento individual desde cualquier dispositivo."],
+  ["02", "Partidos y convocatorias", "Arma la nómina, define la formación y recibe confirmaciones en tiempo real."],
+  ["03", "Evaluaciones y progreso", "Velocidad, fuerza, técnica y resistencia convertidas en evolución visible."],
+  ["04", "Asistencia inteligente", "Publica el calendario y sabe quién llegará antes de pisar la cancha."],
+  ["05", "Pagos automáticos", "Cuotas generadas cada mes y deudas claras, sin perseguir hojas de cálculo."],
+  ["06", "Roles y accesos", "Cada profesor ve solo su categoría. La dirección conserva el control total."],
+  ["07", "Seguimiento físico", "Métricas deportivas y observaciones de entrenamiento para acompañar el progreso de cada jugador."],
+  ["08", "Notificaciones push", "Convocatorias, recordatorios y avisos llegan directo al celular del jugador."],
+  ["09", "Finanzas", "Controla los ingresos y gastos de tu academia, todo en un solo lugar."],
+];
+
+const faqs = [
+  ["¿Cuánto cuesta Metrikas?", "$14.250 CLP al mes por academia, sin importar cuántos jugadores tengas. Con el plan anual ahorras 30%: $119.700 CLP al año."],
+  ["¿Hay contrato o permanencia mínima?", "No. No hay instalación, contratos largos ni letra chica. Puedes cancelar cuando quieras y mantienes el acceso hasta el final del período pagado."],
+  ["¿Cuánto tiempo tarda en funcionar?", "Menos de 20 minutos. Creas tu academia, agregas jugadores y puedes dejar lista tu primera convocatoria el mismo día."],
+  ["¿Funciona en cualquier país?", "Sí. Metrikas está disponible en español, inglés y portugués y funciona desde cualquier país y dispositivo con internet."],
+  ["¿Qué tan seguros están los datos?", "Cada academia mantiene sus datos aislados. Las cuentas son individuales y cada rol accede únicamente a la información que necesita."],
+  ["¿Puedo tener un acceso por categoría?", "Sí. Cada profesor entra con su cuenta y gestiona solo su categoría, sin acceso a pagos, configuración ni otras categorías."],
+  ["¿Qué pasa si un mes no puedo pagar?", "La academia se suspende temporalmente, pero tus datos no se borran. Al reactivar el plan, todo vuelve exactamente como lo dejaste."],
+];
+
+const included = [
+  "Jugadores y categorías ilimitadas",
+  "Convocatorias y formaciones 11, 8, 7 y 5",
+  "Evaluaciones con gráficas de evolución",
+  "Calendario, asistencia y confirmaciones",
+  "Pagos y mensualidades automáticas",
+  "Seguimiento físico y observaciones deportivas",
+  "Notificaciones push al celular",
+  "Acceso independiente por categoría",
+  "Reportes PDF y comparativa de jugadores",
+  "Español, inglés y portugués",
+];
+
+const performance = [
+  { label: "Velocidad", icon: "↻", before: 72, after: 91, accent: "orange" },
+  { label: "Técnica", icon: "◎", before: 68, after: 88, accent: "blue" },
+  { label: "Resistencia", icon: "↗", before: 74, after: 89, accent: "green" },
+  { label: "Agilidad", icon: "♙", before: 70, after: 90, accent: "purple" },
+];
+
+const monthlyProgress = [
+  { month: "Feb", before: 64, after: 74 },
+  { month: "Mar", before: 67, after: 80 },
+  { month: "Abr", before: 70, after: 83 },
+  { month: "May", before: 72, after: 86 },
+  { month: "Jun", before: 76, after: 90 },
+  { month: "Jul", before: 78, after: 94 },
+];
+
+const signals = [
+  ["01", "Control total"],
+  ["02", "Decisiones con datos"],
+  ["03", "Equipo conectado"],
+  ["04", "Crecimiento medible"],
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://metrikas.pro/#organization",
+      name: "Métrikas",
+      url: "https://metrikas.pro",
+      logo: "https://metrikas.pro/icon-512.png",
+      email: "info@metrikas.pro",
+      address: { "@type": "PostalAddress", addressLocality: "Santiago", addressCountry: "CL" },
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://metrikas.pro/#website",
+      url: "https://metrikas.pro",
+      name: "Métrikas",
+      inLanguage: "es-CL",
+      publisher: { "@id": "https://metrikas.pro/#organization" },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://metrikas.pro/#software",
+      name: "Métrikas",
+      applicationCategory: "BusinessApplication",
+      applicationSubCategory: "Gestión de academias de fútbol",
+      operatingSystem: "Web, Android, iOS",
+      url: "https://app.metrikas.pro",
+      description: "Software para gestionar jugadores, evaluaciones, convocatorias, asistencia, pagos y comunicación en academias de fútbol.",
+      offers: [
+        { "@type": "Offer", price: "14250", priceCurrency: "CLP", category: "Plan mensual" },
+        { "@type": "Offer", price: "119700", priceCurrency: "CLP", category: "Plan anual" },
+      ],
+      provider: { "@id": "https://metrikas.pro/#organization" },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map(([question, answer]) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+      })),
+    },
+  ],
+};
+
+function ArrowIcon() {
+  return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>;
+}
+
+function DownloadIcon() {
+  return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m0 0 4-4m-4 4L6 8M4 16h12" /></svg>;
+}
+
+function CheckIcon() {
+  return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-9" /></svg>;
+}
+
+function MediaIcon({ paused }: { paused: boolean }) {
+  return paused
+    ? <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 5 8 5-8 5Z" /></svg>
+    : <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10" /></svg>;
+}
+
+function FeaturePreview({ number }: { number: string }) {
+  if (number === "01") {
+    return (
+      <div className="module-preview player-preview" aria-hidden="true">
+        <div className="player-preview-photo"><img src="/assets/profile-lucas-cuevas.webp" alt="" width="120" height="120" loading="lazy" decoding="async" /></div>
+        <div className="player-preview-info"><strong>Lucas Cuevas</strong><span>Sub 12 · Lateral</span></div>
+        <div className="player-preview-scores"><span><b>80</b>Score</span><span><b>82</b>Velocidad</span><span><b>85</b>Resistencia</span></div>
+      </div>
+    );
+  }
+
+  if (number === "02") {
+    return (
+      <div className="module-preview match-preview" aria-hidden="true">
+        <div className="mini-pitch"><span /><span /><span /><span /><span /></div>
+        <div className="match-ticket"><small>SÁB 12 OCT · 10:00</small><div><b>MTR</b><i>VS</i><b>CDA</b></div><span><CheckIcon /> Convocatoria enviada</span></div>
+      </div>
+    );
+  }
+
+  if (number === "03") {
+    return (
+      <div className="module-preview evolution-preview" aria-hidden="true">
+        <div className="evolution-head"><strong>Evolución del jugador</strong><b>+32%</b></div>
+        <svg className="evolution-chart" viewBox="0 0 240 82" preserveAspectRatio="none"><path className="chart-grid-line" d="M8 68H232M8 44H232M8 20H232" /><path className="chart-area" d="M8 67 52 55 96 45 140 34 184 23 232 14V76H8Z" /><path className="chart-line" d="M8 67 52 55 96 45 140 34 184 23 232 14" /><g><circle cx="8" cy="67" r="3"/><circle cx="52" cy="55" r="3"/><circle cx="96" cy="45" r="3"/><circle cx="140" cy="34" r="3"/><circle cx="184" cy="23" r="3"/><circle cx="232" cy="14" r="3"/></g></svg>
+        <div className="evolution-metrics"><span>Velocidad <b>+28%</b></span><span>Fuerza <b>+18%</b></span><span>Técnica <b>+35%</b></span></div>
+      </div>
+    );
+  }
+
+  if (number === "04") {
+    return (
+      <div className="module-preview attendance-preview" aria-hidden="true">
+        <strong>Entrenamiento · Mar 8 Oct</strong>
+        {["Tomás López", "Benjamín Díaz", "Lucas Ramírez", "Martín Silva"].map((name, index) => <div className="attendance-row" key={name}><span>{name.slice(0,1)}</span><b>{name}</b><i className={index < 2 ? "ok" : index === 2 ? "pending" : "absent"}>{index < 2 ? "Asistió" : index === 2 ? "En duda" : "No asistirá"}</i></div>)}
+      </div>
+    );
+  }
+
+  if (number === "05") {
+    return (
+      <div className="module-preview payment-preview" aria-hidden="true">
+        <div className="payment-main"><span><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 10h18M7 15h4" /></svg></span><div><small>CUOTA OCTUBRE</small><strong>$45.000</strong></div><b><CheckIcon /> Pagado</b></div>
+        <div className="payment-next"><span>Próxima cuota<br/><small>1 Nov 2026</small></span><strong>$45.000</strong></div>
+      </div>
+    );
+  }
+
+  if (number === "06") {
+    return (
+      <div className="module-preview access-preview" aria-hidden="true">
+        {[['D','Director','Acceso total'],['E','Entrenador','Solo su categoría'],['PF','Preparador físico','Métricas y evaluaciones'],['A','Apoderado','Solo su hijo/a']].map(([badge,title,detail]) => <div key={title}><span>{badge}</span><p><strong>{title}</strong><small>{detail}</small></p></div>)}
+      </div>
+    );
+  }
+
+  if (number === "07") {
+    return (
+      <div className="module-preview fitness-preview" aria-hidden="true">
+        <img src="/assets/role-player.webp" alt="" width="150" height="180" loading="lazy" decoding="async" />
+        <div><span>Distancia<strong>5,2 km</strong></span><span>Vel. máxima<strong>28,4 km/h</strong></span><span>Carga de trabajo<strong><i /> Alto</strong></span></div>
+      </div>
+    );
+  }
+
+  if (number === "08") {
+    return (
+      <div className="module-preview notification-preview" aria-hidden="true">
+        <div className="mini-phone"><span>9:41</span><i /></div>
+        <div className="push-message"><span><svg viewBox="0 0 24 24"><path d="M6 17h12l-1.5-2V10a4.5 4.5 0 0 0-9 0v5zM10 20h4" /></svg></span><p><small>AHORA</small><strong>¡Entrenamiento mañana!</strong><b>Te esperamos a las 10:30.</b></p></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="module-preview finance-preview" aria-hidden="true">
+      <div className="finance-values"><span><i className="up"><svg viewBox="0 0 24 24"><path d="M5 17 17 5M8 5h9v9" /></svg></i>Cobrado<strong>$1.250.000</strong></span><span><i className="down"><svg viewBox="0 0 24 24"><path d="m5 7 12 12M8 19h9v-9" /></svg></i>Gastado<strong>$430.000</strong></span><span><i className="wallet"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM4 10h16M16 14h4" /></svg></i>Disponible<strong>$820.000</strong></span></div>
+      <div className="finance-bar"><i /><b /></div><div className="finance-legend"><span>Ingresos 74%</span><span>Gastos 26%</span></div>
+    </div>
+  );
+}
+
+function Brand() {
+  return (
+    <a className="brand" href="#inicio" aria-label="Metrikas, inicio">
+      <img src="/assets/metrikas-logo-transparent.png" alt="Metrikas" />
+    </a>
+  );
+}
+
+function TacticalBoard() {
+  const [players, setPlayers] = useState(initialPlayers);
+  const [dragging, setDragging] = useState<number | null>(null);
+  const pitchRef = useRef<HTMLDivElement>(null);
+
+  const movePlayer = (event: React.PointerEvent<HTMLButtonElement>, id: number) => {
+    if (dragging !== id || !pitchRef.current) return;
+    const rect = pitchRef.current.getBoundingClientRect();
+    const x = Math.min(94, Math.max(6, ((event.clientX - rect.left) / rect.width) * 100));
+    const y = Math.min(94, Math.max(6, ((event.clientY - rect.top) / rect.height) * 100));
+    setPlayers((current) => current.map((player) => player.id === id ? { ...player, x, y } : player));
+  };
+
+  return (
+    <div className="tactics-card">
+      <div className="tactics-head">
+        <div><span>PRÓXIMO PARTIDO</span><strong>Formación inicial</strong></div>
+        <span className="live-pill"><i />4-3-3</span>
+      </div>
+      <div className="pitch" ref={pitchRef}>
+        <span className="half-line" /><span className="center-circle" /><span className="box box-top" /><span className="box box-bottom" />
+        {players.map((player) => (
+          <button
+            key={player.id}
+            className={`player-dot ${player.id === 10 ? "captain" : ""}`}
+            style={{ left: `${player.x}%`, top: `${player.y}%` }}
+            onPointerDown={(event) => { setDragging(player.id); event.currentTarget.setPointerCapture(event.pointerId); }}
+            onPointerMove={(event) => movePlayer(event, player.id)}
+            onPointerUp={() => setDragging(null)}
+            aria-label={`Mover jugador ${player.label}`}
+          ><span>{player.id}</span><small>{player.label}</small></button>
+        ))}
+      </div>
+      <div className="tactics-foot"><span>Arrastra los jugadores para ajustar la táctica</span><strong>11 convocados</strong></div>
+    </div>
+  );
+}
+
+function CalendarPhone() {
+  return (
+    <div className="phone phone-calendar" aria-hidden="true">
+      <div className="phone-notch" />
+      <div className="phone-screen">
+        <div className="phone-status"><span>9:41</span><span>● ●</span></div>
+        <div className="app-brand"><b>M</b><span>Métrikas</span><i /></div>
+        <div className="app-title"><small>AGOSTO 2026</small><h4>Tu calendario</h4></div>
+        <div className="week-row"><span>L<small>10</small></span><span>M<small>11</small></span><span className="active">M<small>12</small></span><span>J<small>13</small></span><span>V<small>14</small></span></div>
+        <div className="event-card green"><small>18:30 · SUB 15</small><strong>Entrenamiento técnico</strong><span>Cancha 2 · 18 confirmados</span></div>
+        <div className="event-card blue"><small>20:00 · SUB 17</small><strong>Preparación física</strong><span>Gimnasio · 16 confirmados</span></div>
+        <div className="event-card amber"><small>SÁBADO · 10:00</small><strong>Partido vs. Cóndores FC</strong><span>Estadio Municipal</span></div>
+        <div className="phone-nav"><span>⌂<small>Inicio</small></span><span className="on">□<small>Calendario</small></span><span>◎<small>Equipo</small></span></div>
+      </div>
+    </div>
+  );
+}
+
+function PlayerPhone() {
+  const attributes = [
+    { label: "Velocidad", value: 82, color: "#f3a30b" },
+    { label: "Fuerza", value: 81, color: "#ef4751" },
+    { label: "Técnica", value: 69, color: "#347ee9" },
+    { label: "Resistencia", value: 85, color: "#17b97b" },
+    { label: "Potencia", value: 81, color: "#ff7422" },
+    { label: "Agilidad", value: 79, color: "#914ee8" },
+  ];
+
+  return (
+    <div className="player-device" aria-hidden="true">
+      <div className="player-device-screen">
+        <div className="player-system-bar"><span>9:41</span><span>● 5G ▮▮▮</span></div>
+        <div className="player-profile-hero">
+          <div className="player-toolbar">
+            <span className="player-back">←</span>
+            <strong>Perfil del Jugador</strong>
+            <div><span>↓</span><span>✎</span></div>
+          </div>
+          <div className="player-identity">
+            <img className="player-profile-avatar" src="/assets/profile-lucas-cuevas.webp" width="62" height="62" loading="lazy" decoding="async" alt="Retrato ilustrativo de Lucas Cuevas, futbolista juvenil" />
+            <div className="player-name">
+              <h4>Lucas Cuevas</h4>
+              <span>Lateral Izquierdo</span>
+              <p>11 años <i /> Sub-12</p>
+            </div>
+            <div className="player-score-ring"><strong>80</strong><small>Score</small></div>
+          </div>
+        </div>
+
+        <div className="player-bio-grid">
+          <div><span>↕</span><p><small>ALTURA</small><strong>157 cm</strong></p></div>
+          <div><span>◇</span><p><small>PESO</small><strong>46 kg</strong></p></div>
+          <div><span>□</span><p><small>NACIMIENTO</small><strong>30 abr 2015</strong></p></div>
+          <div><span>☆</span><p><small>PIERNA HÁBIL</small><strong>Izquierda</strong></p></div>
+        </div>
+
+        <div className="player-attributes-panel">
+          <div className="attributes-heading"><div><strong>Atributos físicos y técnicos</strong><small>31 de agosto de 2026</small></div><span>Última evaluación</span></div>
+          <div className="attributes-grid">
+            {attributes.map((attribute) => (
+              <div className="attribute-item" key={attribute.label}>
+                <div><span>{attribute.label}</span><strong style={{ color: attribute.color }}>{attribute.value}</strong></div>
+                <i><b style={{ width: `${attribute.value}%`, background: attribute.color }} /></i>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="player-device-nav"><span>⌂<small>Inicio</small></span><span className="active">♙<small>Jugadores</small></span><span>♡<small>Seguimiento</small></span><span>◎<small>Análisis</small></span></div>
+      </div>
+    </div>
+  );
+}
+
+function GameCard() {
+  return (
+    <div className="game-card-wrap">
+      <figure className="game-card">
+        <img src="/assets/metrikas-card-mateo.webp" width="1052" height="1495" loading="lazy" decoding="async" alt="Ficha de ejemplo de Mateo, número 10, con valoración general 86" />
+        <div className="card-shine" />
+      </figure>
+      <span className="orbit orbit-one" /><span className="orbit orbit-two" />
+    </div>
+  );
+}
+
+function useDialogKeyboard(onClose: () => void, canClose = true) {
+  const dialogRef = useRef<HTMLElement>(null);
+  const closeRef = useRef(onClose);
+  const canCloseRef = useRef(canClose);
+
+  useEffect(() => {
+    closeRef.current = onClose;
+    canCloseRef.current = canClose;
+  }, [onClose, canClose]);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const dialog = dialogRef.current;
+    const focusable = () => Array.from(dialog?.querySelectorAll<HTMLElement>('a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])') ?? []);
+    (dialog?.querySelector<HTMLElement>('input:not([type="checkbox"])') ?? focusable()[0])?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && canCloseRef.current) {
+        event.preventDefault();
+        closeRef.current();
+      }
+      if (event.key !== "Tab") return;
+      const elements = focusable();
+      if (!elements.length) return;
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !dialog?.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !dialog?.contains(document.activeElement))) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
+    };
+  }, []);
+
+  return dialogRef;
+}
+
+function DemoModal({ onClose }: { onClose: () => void }) {
+  const dialogRef = useDialogKeyboard(onClose);
+  const [email, setEmail] = useState("");
+  const [academy, setAcademy] = useState("");
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [feedback, setFeedback] = useState("");
+
+  const requestDemo = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (status === "submitting") return;
+
+    setStatus("submitting");
+    setFeedback("");
+
+    try {
+      const response = await fetch("https://app.metrikas.pro/api/demo/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), academy_name: academy.trim() }),
+      });
+
+      const data = await response.json().catch(() => null) as { message?: string; error?: string } | null;
+
+      if (!response.ok) {
+        throw new Error(data?.error || "No pudimos enviar el código. Inténtalo nuevamente.");
+      }
+
+      setStatus("success");
+      setFeedback(data?.message || `Enviamos el código de demo a ${email.trim()}.`);
+    } catch (error) {
+      setStatus("error");
+      setFeedback(error instanceof Error ? error.message : "No pudimos enviar el código. Inténtalo nuevamente.");
+    }
+  };
+
+  return (
+    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
+      <section ref={dialogRef} className="demo-modal" role="dialog" aria-modal="true" aria-labelledby="demo-title" onMouseDown={(event) => event.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Cerrar">×</button>
+        <span className="demo-badge">Solicitar demo</span>
+        <h2 id="demo-title">14 días gratis <span>— Acceso completo</span></h2>
+        <form onSubmit={requestDemo}>
+          <label>Tu email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="tu@email.com" autoComplete="email" disabled={status === "submitting" || status === "success"} required /></label>
+          <label>Nombre de tu academia<input value={academy} onChange={(event) => setAcademy(event.target.value)} placeholder="Mi Academia Deportiva" autoComplete="organization" disabled={status === "submitting" || status === "success"} required /></label>
+          <label className="demo-consent">
+            <input type="checkbox" checked={privacyAccepted} onChange={(event) => setPrivacyAccepted(event.target.checked)} disabled={status === "submitting" || status === "success"} required />
+            <span>Acepto la <a href="/legal/privacy" target="_blank" rel="noreferrer">Política de Privacidad</a> y que Métrikas me contacte para gestionar esta demo. No incluiré datos de menores en este formulario.</span>
+          </label>
+          <div className="demo-includes">
+            <strong>Tu demo incluye:</strong>
+            <div>
+              <span>✓ Jugadores ilimitados</span>
+              <span>✓ Evaluaciones y gráficas</span>
+              <span>✓ Convocatorias y tácticas</span>
+              <span>✓ Pagos automáticos</span>
+              <span className="demo-unlimited">✓ TODO SIN RESTRICCIONES</span>
+            </div>
+          </div>
+          {feedback && <div className={`demo-feedback ${status}`} role="status" aria-live="polite">{status === "success" ? "✓" : "!"}<span>{feedback}</span></div>}
+          {status === "success" ? (
+            <button className="button modal-submit" type="button" onClick={onClose}>Listo, cerrar</button>
+          ) : (
+            <button className="button modal-submit" type="submit" disabled={status === "submitting" || !privacyAccepted}>
+              {status === "submitting" ? "Enviando código…" : "Enviar código a mi email"}{status !== "submitting" && <ArrowIcon />}
+            </button>
+          )}
+        </form>
+        <small>Recibirás tu código de demo por email en segundos.<b>Válido por 14 días.</b></small>
+      </section>
+    </div>
+  );
+}
+
+type CheckoutPlan = "monthly" | "annual";
+
+function CheckoutModal({ plan, onClose }: { plan: CheckoutPlan; onClose: () => void }) {
+  const [email, setEmail] = useState("");
+  const [academyName, setAcademyName] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const isSubmitting = status === "submitting";
+  const dialogRef = useDialogKeyboard(onClose);
+  const requestControllerRef = useRef<AbortController | null>(null);
+  const planName = plan === "monthly" ? "Plan mensual" : "Plan anual";
+  const planPrice = plan === "monthly" ? "$14.250 CLP / mes" : "$119.700 CLP / año";
+
+  useEffect(() => () => requestControllerRef.current?.abort(), []);
+
+  const startCheckout = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    setStatus("submitting");
+    setErrorMessage("");
+    const controller = new AbortController();
+    requestControllerRef.current = controller;
+    const timeoutId = window.setTimeout(() => controller.abort(), 15000);
+
+    try {
+      const response = await fetch("https://app.metrikas.pro/api/subscriptions/public-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          email: email.trim(),
+          academyName: academyName.trim(),
+          plan,
+        }),
+      });
+
+      const data = await response.json().catch(() => null) as { checkout_url?: string; error?: string } | null;
+
+      if (!response.ok) {
+        throw new Error(data?.error || "No pudimos iniciar el pago. Inténtalo nuevamente.");
+      }
+
+      if (!data?.checkout_url) {
+        throw new Error("No recibimos el enlace de pago. Inténtalo nuevamente.");
+      }
+
+      window.location.href = data.checkout_url;
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(error instanceof DOMException && error.name === "AbortError" ? "La conexión tardó demasiado. Revisa tu internet e inténtalo nuevamente." : error instanceof Error ? error.message : "No pudimos iniciar el pago. Inténtalo nuevamente.");
+    } finally {
+      window.clearTimeout(timeoutId);
+      requestControllerRef.current = null;
+    }
+  };
+
+  return (
+    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
+      <section ref={dialogRef} id="checkout-payment-modal" className="demo-modal checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title" onMouseDown={(event) => event.stopPropagation()}>
+        <button className="modal-close" type="button" onClick={onClose} aria-label="Cerrar">×</button>
+        <span className="checkout-badge">PAGO SEGURO · MERCADOPAGO</span>
+        <h2 id="checkout-title">Completa tus datos <span>y continúa al pago</span></h2>
+        <div className="checkout-plan-summary">
+          <div><small>PLAN SELECCIONADO</small><strong>{planName}</strong></div>
+          <b>{planPrice}</b>
+        </div>
+        <form onSubmit={startCheckout}>
+          <label>Correo electrónico<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="correo@ejemplo.com" autoComplete="email" disabled={isSubmitting} autoFocus required /></label>
+          <label>Nombre de la academia<input type="text" value={academyName} onChange={(event) => setAcademyName(event.target.value)} placeholder="Nombre de tu academia" autoComplete="organization" disabled={isSubmitting} required /></label>
+          {errorMessage && <div className="demo-feedback error" role="alert" aria-live="assertive">!<span>{errorMessage}</span></div>}
+          <button className="button modal-submit checkout-submit" type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+            {isSubmitting ? "Cargando..." : "Continuar al pago"}{!isSubmitting && <ArrowIcon />}
+          </button>
+        </form>
+        <small>Serás redirigido a MercadoPago para completar el pago de forma segura.</small>
+      </section>
+    </div>
+  );
+}
+
+function InstallModal({ onClose }: { onClose: () => void }) {
+  const [platform, setPlatform] = useState<"ios" | "android" | "desktop">("desktop");
+  const dialogRef = useDialogKeyboard(onClose);
+
+  useEffect(() => {
+    const agent = window.navigator.userAgent.toLowerCase();
+    // Browser-only platform detection after server rendering.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (/iphone|ipad|ipod/.test(agent)) setPlatform("ios");
+    else if (/android/.test(agent)) setPlatform("android");
+  }, []);
+
+  return (
+    <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
+      <section ref={dialogRef} className="install-modal" role="dialog" aria-modal="true" aria-labelledby="install-title" onMouseDown={(event) => event.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Cerrar">×</button>
+        <span className="install-badge"><DownloadIcon /> DESCARGAR APP</span>
+        <h2 id="install-title">Lleva Métrikas <em>en tu teléfono.</em></h2>
+        <p>Instala el sistema en tu pantalla de inicio y ábrelo como una aplicación, sin buscarlo cada vez en el navegador.</p>
+        <div className="install-options">
+          <article className={platform === "android" ? "recommended" : ""}>
+            <span className="install-platform">ANDROID</span>
+            <strong>Instalar desde Chrome</strong>
+            <p>Abre Métrikas, toca el menú ⋮ y selecciona <b>Instalar aplicación</b>.</p>
+            {platform === "android" && <small>RECOMENDADO PARA TU DISPOSITIVO</small>}
+          </article>
+          <article className={platform === "ios" ? "recommended" : ""}>
+            <span className="install-platform">IPHONE / IPAD</span>
+            <strong>Agregar a inicio</strong>
+            <p>Abre Métrikas en Safari, toca Compartir y selecciona <b>Agregar a pantalla de inicio</b>.</p>
+            {platform === "ios" && <small>RECOMENDADO PARA TU DISPOSITIVO</small>}
+          </article>
+        </div>
+        <a className="button install-open-button" href="https://app.metrikas.pro/">Abrir Métrikas para instalar <ArrowIcon /></a>
+        <small className="install-note">El sistema quedará disponible desde el icono de Métrikas en tu teléfono.</small>
+      </section>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [demoOpen, setDemoOpen] = useState(false);
+  const [installOpen, setInstallOpen] = useState(false);
+  const [checkoutPlan, setCheckoutPlan] = useState<CheckoutPlan | null>(null);
+  const [openFaq, setOpenFaq] = useState(0);
+  const [signalPaused, setSignalPaused] = useState(false);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+
+    const updateProgress = () => {
+      frame = 0;
+      const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      root.style.setProperty("--page-progress", String(Math.min(1, window.scrollY / scrollable)));
+    };
+
+    const requestProgressUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateProgress);
+    };
+
+    const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
+      ".section-heading, .compare-card, .feature-card, .showcase-copy, .phone-stage, .exercise-visual, .mini-benefits article, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .testimonial-grid blockquote, .faq-item, .final-content"
+    ));
+
+    revealTargets.forEach((target, index) => {
+      target.classList.add("reveal-item");
+      target.style.setProperty("--reveal-delay", `${(index % 3) * 70}ms`);
+    });
+
+    let observer: IntersectionObserver | null = null;
+    if (reduceMotion.matches) {
+      revealTargets.forEach((target) => target.classList.add("reveal-visible"));
+    } else {
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("reveal-visible");
+          observer?.unobserve(entry.target);
+        });
+      }, { rootMargin: "0px 0px -9%", threshold: 0.08 });
+      revealTargets.forEach((target) => observer?.observe(target));
+    }
+
+    updateProgress();
+    window.addEventListener("scroll", requestProgressUpdate, { passive: true });
+    window.addEventListener("resize", requestProgressUpdate);
+
+    return () => {
+      observer?.disconnect();
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", requestProgressUpdate);
+      window.removeEventListener("resize", requestProgressUpdate);
+      root.style.removeProperty("--page-progress");
+    };
+  }, []);
+
+  return (
+    <main id="inicio" className="redesign-v26">
+      <a className="skip-link" href="#contenido-principal">Saltar al contenido</a>
+      <div className="site-progress" aria-hidden="true" />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <header className="site-header">
+        <div className="nav-shell">
+          <Brand />
+          <nav id="primary-navigation" className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Navegación principal">
+            <a href="#caracteristicas" onClick={() => setMenuOpen(false)}>Características</a>
+            <a href="#producto" onClick={() => setMenuOpen(false)}>Plataforma</a>
+            <a href="#precios" onClick={() => setMenuOpen(false)}>Precios</a>
+            <a href="#preguntas" onClick={() => setMenuOpen(false)}>Preguntas</a>
+            <a className="mobile-login-link" href="https://app.metrikas.pro/">Iniciar sesión</a>
+            <button className="mobile-install-link" onClick={() => { setMenuOpen(false); setInstallOpen(true); }}><DownloadIcon /> Descargar app</button>
+          </nav>
+          <div className="nav-actions">
+            <a className="nav-login" href="https://app.metrikas.pro">Iniciar sesión</a>
+            <button className="nav-download" onClick={() => setInstallOpen(true)}><DownloadIcon /> Descargar app</button>
+            <button className="button button-small" onClick={() => setDemoOpen(true)}>Probar gratis</button>
+          </div>
+          <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"} aria-controls="primary-navigation" aria-expanded={menuOpen}><span /><span /></button>
+        </div>
+      </header>
+
+      <section className="hero" id="contenido-principal" tabIndex={-1}>
+        <div className="hero-media" aria-hidden="true">
+          <div className="hero-photo">
+            <img src="/assets/metrikas-hero-campo.jpg" alt="" width="736" height="981" fetchPriority="high" decoding="async" />
+          </div>
+        </div>
+        <div className="hero-image" /><div className="hero-grid" /><div className="hero-glow" />
+        <div className="container hero-layout">
+          <div className="hero-copy">
+            <h1>Dirige tu academia como un <em>club profesional.</em></h1>
+            <p>Software de gestión para academias de fútbol: jugadores, evaluaciones, asistencia, convocatorias, pagos y comunicación en una sola plataforma.</p>
+            <div className="hero-actions">
+              <button className="button hero-primary-action" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button>
+              <a className="hero-secondary-action" href="#producto">Ver cómo funciona <ArrowIcon /></a>
+            </div>
+            <ul className="hero-proof" aria-label="Condiciones de la prueba"><li><CheckIcon />14 días gratis</li><li><CheckIcon />Sin contrato</li><li><CheckIcon />Cancela cuando quieras</li></ul>
+          </div>
+        </div>
+        <div className="scroll-hint"><span /> Descubre Metrikas</div>
+      </section>
+
+      <section className={signalPaused ? "signal-bar is-paused" : "signal-bar"} aria-label="Beneficios principales">
+        <div className="signal-grid">
+          <div className="signal-track">
+            {[0, 1].map((group) => (
+              <div className="signal-group" aria-hidden={group === 1} key={group}>
+                {signals.map(([number, label]) => <span key={`${group}-${number}`}><b>{number}</b>{label}</span>)}
+              </div>
+            ))}
+          </div>
+          <button className="signal-toggle" type="button" onClick={() => setSignalPaused((value) => !value)} aria-label={signalPaused ? "Reanudar beneficios" : "Pausar beneficios"}><MediaIcon paused={signalPaused} /></button>
+        </div>
+      </section>
+
+      <section className="section problem-section">
+        <div className="container">
+          <div className="section-heading split-heading">
+            <div><h2>De la improvisación<br />al <em>control total.</em></h2></div>
+            <p>Centraliza el trabajo de tu academia. Convierte cada entrenamiento, asistencia y evaluación en información útil para decidir mejor.</p>
+          </div>
+          <div className="compare-grid">
+            <article className="compare-card old-way">
+              <div className="compare-top"><span className="compare-icon">×</span><div><small>ANTES</small><h3>Todo por separado</h3></div></div>
+              <ul><li>Convocatorias perdidas en grupos de WhatsApp</li><li>Pagos entre cuadernos y hojas de cálculo</li><li>Progreso imposible de demostrar a los padres</li><li>Contraseñas compartidas y accesos sin control</li></ul>
+            </article>
+            <article className="compare-card new-way">
+              <div className="compare-top"><span className="compare-icon">✓</span><div><small>CON METRIKAS</small><h3>Una academia conectada</h3></div></div>
+              <ul><li>Confirmaciones y avisos directos al celular</li><li>Cuotas automáticas y deudas siempre visibles</li><li>Gráficas de evolución fáciles de entender</li><li>Un acceso seguro para cada profesor</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="section feature-section" id="caracteristicas">
+        <div className="container">
+          <div className="section-heading centered">
+            <h2>Un sistema completo.<br /><em>No diez herramientas parcheadas.</em></h2>
+            <p>Cada módulo fue diseñado para el ritmo real de una academia de fútbol.</p>
+          </div>
+          <div className="feature-showcase-grid">
+            {features.map(([number, title, description]) => (
+              <article className={`feature-card module-card module-card-${number}`} key={number}>
+                <div className="module-card-copy"><span className="feature-number">{number}</span><h3>{title}</h3><p>{description}</p></div>
+                <FeaturePreview number={number} />
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section product-section" id="producto">
+        <div className="container">
+          <div className="section-heading product-heading">
+            <h2>Diseñada para la cancha.<br /><em>Lista para dirigir.</em></h2>
+            <p>Información clara para el cuerpo técnico, los jugadores y las familias. Sin procesos complicados.</p>
+          </div>
+
+          <article className="showcase-row">
+            <div className="showcase-copy">
+              <span className="module-index">MÓDULO 01 · CALENDARIO</span>
+              <h3>Planifica cada evento con tranquilidad.</h3>
+              <p>Partidos, entrenamientos y torneos en un solo lugar. Todo el equipo ve el calendario actualizado en tiempo real.</p>
+              <ul><li>Crea eventos por fecha, hora y categoría</li><li>Notificaciones push automáticas</li><li>Reprograma y avisa a todos al instante</li></ul>
+              <button className="inline-cta" onClick={() => setDemoOpen(true)}>Probar este módulo <ArrowIcon /></button>
+            </div>
+            <div className="phone-stage calendar-stage">
+              <span className="stage-ring" /><span className="stage-grid" />
+              <CalendarPhone />
+              <div className="notify-card"><span>✓</span><div><small>CONFIRMACIÓN RECIBIDA</small><strong>18 jugadores asistirán</strong></div></div>
+            </div>
+          </article>
+
+          <article className="showcase-row reverse">
+            <div className="showcase-copy">
+              <span className="module-index">MÓDULO 02 · JUGADORES</span>
+              <h3>Conoce el estado real de cada jugador.</h3>
+              <p>Perfil individual con evaluaciones físicas, historial de actividad y evolución semana a semana.</p>
+              <ul><li>Score general con evaluaciones reales</li><li>Identifica quién necesita atención</li><li>Filtra por posición, categoría o rendimiento</li></ul>
+              <button className="inline-cta" onClick={() => setDemoOpen(true)}>Probar perfiles de jugador <ArrowIcon /></button>
+              <small className="showcase-example-note">Pantalla de ejemplo · Lucas y sus datos son ficticios.</small>
+            </div>
+            <div className="phone-stage player-stage">
+              <span className="player-stage-orbit orbit-a" /><span className="player-stage-orbit orbit-b" />
+              <PlayerPhone />
+              <div className="player-insight-card"><span>6</span><div><small>ATRIBUTOS MEDIDOS</small><strong>Perfil digital actualizado</strong></div></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="section exercise-section" id="ejercicios">
+        <div className="container exercise-layout">
+          <div className="exercise-visual">
+            <div className="training-photo" />
+            <div className="video-tile">
+              <div className="video-top"><span>EJERCICIO 04</span><b>02:18</b></div>
+              <button type="button" aria-label="Solicitar una demo para ver los ejercicios en Métrikas" onClick={() => setDemoOpen(true)}>▶</button>
+              <div><strong>Sprint de 20 metros</strong><span>Velocidad · Cronometrado</span></div>
+            </div>
+            <div className="attempt-card"><small>ÚLTIMO REGISTRO</small><strong>3.12 s</strong><span>−0.24 s desde julio</span></div>
+          </div>
+          <div className="section-heading exercise-copy">
+            <h2>El deportista sabe <em>exactamente</em> cómo entrenar.</h2>
+            <p>Cada ejercicio incluye un video guía para ejecutar la técnica correcta. Sprint, fuerza, pliometría y agilidad, documentados con su unidad de medida.</p>
+            <div className="mini-benefits">
+              <article><span>▶</span><div><h4>Video por ejercicio</h4><p>La técnica correcta, visible directo en la app.</p></div></article>
+              <article><span>↗</span><div><h4>Registro de intentos</h4><p>Guarda cada resultado y compara sesión a sesión.</p></div></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section player-card-section">
+        <div className="container player-card-layout">
+          <div className="section-heading card-copy">
+            <h2>Estadísticas estilo videojuego <em>con datos reales.</em></h2>
+            <p className="card-lead">Convierte cada evaluación en una experiencia que motive a tus jugadores. Cada alumno recibe una ficha personal con sus datos reales, seis atributos, un rating general y una insignia que representa el nivel alcanzado.</p>
+            <p>La ficha evoluciona con cada evaluación: el jugador puede verla desde su celular, los padres pueden comprobar su crecimiento y la academia demuestra con datos el trabajo realizado.</p>
+            <ul className="green-checks">
+              <li>Velocidad, Fuerza, Técnica, Resistencia, Potencia y Agilidad</li>
+              <li>Rating general que evoluciona con su rendimiento</li>
+              <li>Nivel <strong>PRO</strong> con OVR menor a 75</li>
+              <li>Nivel <strong>TOP</strong> desde OVR 75</li>
+              <li>Nivel <strong>ELITE</strong> desde OVR 88</li>
+              <li>Descargable como imagen para compartir con los padres</li>
+            </ul>
+            <p>Tus alumnos no entrenan solamente para mejorar un número. Entrenan para superar su ficha, subir de nivel y demostrar hasta dónde pueden llegar.</p>
+            <p className="card-closing">Eso es compromiso que tú no tienes que exigir. Se genera solo.</p>
+          </div>
+          <GameCard />
+        </div>
+      </section>
+
+      <section className="section progress-section" id="progreso">
+        <div className="container progress-layout">
+          <div className="section-heading progress-heading">
+            <span className="progress-label">PROGRESO</span>
+            <h2>Números que se entienden <em>a primera vista.</em></h2>
+            <p>El progreso deja de ser una percepción. Cada evaluación se transforma en evidencia clara para el entrenador, el jugador y su familia.</p>
+          </div>
+          <div className="performance-dashboard" aria-hidden="true">
+            <p className="sample-label">Vista de ejemplo · Datos ilustrativos</p>
+            <div className="dashboard-kpis">
+              <article className="dashboard-kpi kpi-green"><span className="kpi-icon">↗</span><small>PROGRESO GENERAL</small><strong>+22<em>%</em></strong><p>Score promedio del equipo en 6 meses</p></article>
+              <article className="dashboard-kpi kpi-amber"><span className="kpi-icon">↻</span><small>JUGADORES TOP</small><strong>14<em>/22</em></strong><p>Desde 75 pts en evaluación general</p></article>
+              <article className="dashboard-kpi kpi-purple"><span className="kpi-icon">♙</span><small>ASISTENCIA</small><strong>94<em>%</em></strong><p>Promedio de asistencia a entrenos</p></article>
+            </div>
+            <div className="trend-panel">
+              <div className="trend-head"><div><small>EVOLUCIÓN MEDIDA</small><strong>Compara evaluaciones</strong></div><div className="trend-legend"><span><i /> Evaluación anterior</span><span><i /> Evaluación actual</span></div></div>
+              <div className="monthly-chart">
+                {monthlyProgress.map((month, index) => (
+                  <div className="month-column" key={month.month}>
+                    <div className="month-bars">
+                      <span className="month-bar month-before" style={{height:`${month.before}%`}} />
+                      <span className="month-bar month-after" style={{height:`${month.after}%`}}>{index === monthlyProgress.length - 1 && <b>+16</b>}</span>
+                    </div>
+                    <small>{month.month}</small>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="metric-card-grid">
+              {performance.map((metric) => (
+                <article className={`metric-card metric-${metric.accent}`} key={metric.label}>
+                  <div className="metric-card-title"><span>{metric.icon}</span><strong>{metric.label}</strong></div>
+                  <div className="metric-score"><b>{metric.after}</b><em>+{metric.after-metric.before}</em></div>
+                  <div className="metric-track"><span style={{width:`${metric.after}%`}} /></div>
+                  <small>Desde {metric.before} pts hasta {metric.after} pts</small>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section roles-section">
+        <div className="container">
+          <div className="section-heading centered roles-heading"><h2>Cada persona ve solo<br /><em>lo que necesita.</em></h2><p>Tú controlas quién accede a qué, sin contraseñas compartidas ni datos expuestos.</p></div>
+          <div className="role-grid">
+            <article className="role-card primary"><span className="role-id">01</span><div className="role-avatar"><img src="/assets/role-owner.webp" alt="Retrato ilustrativo de un dueño y entrenador principal" width="88" height="88" loading="lazy" decoding="async" /></div><h3>Dueño / Entrenador principal</h3><p>Control total de categorías, pagos, suscripción y accesos.</p><ul><li>Panel completo</li><li>Gestión de profesores</li><li>Información financiera</li></ul></article>
+            <article className="role-card"><span className="role-id">02</span><div className="role-avatar"><img src="/assets/role-professor.webp" alt="Retrato ilustrativo de un profesor de categoría" width="88" height="88" loading="lazy" decoding="async" /></div><h3>Profesor de categoría</h3><p>Gestiona únicamente su plantel, partidos y entrenamientos.</p><ul><li>Acceso por categoría</li><li>Sin acceso a pagos</li><li>Cuenta independiente</li></ul></article>
+            <article className="role-card"><span className="role-id">03</span><div className="role-avatar"><img src="/assets/role-player.webp" alt="Retrato ilustrativo de un jugador juvenil" width="88" height="88" loading="lazy" decoding="async" /></div><h3>Jugador / Acudiente</h3><p>Consulta ficha, progreso y convocatoria desde el celular.</p><ul><li>Confirma asistencia</li><li>Ve su evolución</li><li>Recibe notificaciones</li></ul></article>
+          </div>
+          <p className="roles-example-note">Fotografías ilustrativas de cada tipo de usuario.</p>
+        </div>
+      </section>
+
+      <section className="section testimonial-section">
+        <div className="container">
+          <div className="testimonial-label"><h2>Academias que ya evolucionan.</h2></div>
+          <div className="testimonial-grid">
+            <blockquote><div className="stars">★★★★★</div><p>“Ahora el cuerpo técnico tiene todo en el celular y tomamos mejores decisiones en los entrenamientos.”</p><footer><span>DT</span><div><strong>Director Técnico</strong><small>Leones de Cartagena FC</small></div></footer></blockquote>
+            <blockquote><div className="stars">★★★★★</div><p>“Los jugadores pueden ver su ficha y convocatoria. Eso generó más compromiso y mejoró la asistencia.”</p><footer><span>EP</span><div><strong>Entrenador Principal</strong><small>Dragones de Macul</small></div></footer></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section className="section pricing-section" id="precios">
+        <div className="container">
+          <div className="section-heading pricing-heading"><h2>Todo incluido.<br /><em>Sin sorpresas.</em></h2><p>Sin límite de jugadores ni módulos. Menos de lo que cuesta alquilar una cancha.</p></div>
+          <div className="pricing-layout">
+            <div className="price-cards">
+              <article className="price-card"><span className="plan-label">PLAN MENSUAL</span><div className="price"><b>$14.250</b><span>CLP / mes</span></div><p>Por academia · Acceso por 30 días</p><button className="price-button" type="button" aria-haspopup="dialog" aria-controls="checkout-payment-modal" data-checkout-plan="monthly" onClick={() => setCheckoutPlan("monthly")}>Continuar al pago mensual <ArrowIcon /></button></article>
+              <article className="price-card featured"><span className="saving">AHORRA 30%</span><span className="plan-label">PLAN ANUAL</span><div className="price"><b>$119.700</b><span>CLP / año</span></div><p>Pago anual único · Equivale a $9.975 mensuales</p><button className="price-button" type="button" aria-haspopup="dialog" aria-controls="checkout-payment-modal" data-checkout-plan="annual" onClick={() => setCheckoutPlan("annual")}>Continuar al pago anual <ArrowIcon /></button></article>
+            </div>
+            <div className="included-card"><small>AMBOS PLANES INCLUYEN</small><div className="included-grid">{included.map((item) => <span key={item}><i>✓</i>{item}</span>)}</div><div className="secure-line"><span>Pago seguro</span><span>Sin contratos</span><span>Cancela cuando quieras</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section faq-section" id="preguntas">
+        <div className="container faq-layout">
+          <div className="section-heading faq-intro"><h2>Todo lo que quieres saber <em>antes de empezar.</em></h2><p>¿No encuentras tu respuesta?</p><a href="https://wa.me/56992103974?text=Hola%2C%20tengo%20una%20pregunta%20sobre%20Metrikas">Pregúntanos por WhatsApp <ArrowIcon /></a></div>
+          <div className="faq-list">
+            {faqs.map(([question,answer],index) => <article className={openFaq===index?"faq-item open":"faq-item"} key={question}><button onClick={() => setOpenFaq(openFaq===index?-1:index)} aria-expanded={openFaq===index} aria-controls={`faq-answer-${index}`}><span>{String(index+1).padStart(2,"0")}</span><strong>{question}</strong><i aria-hidden="true">{openFaq===index?"−":"+"}</i></button><div id={`faq-answer-${index}`} className="faq-answer" aria-hidden={openFaq!==index}><p>{answer}</p></div></article>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="final-cta">
+        <div className="final-photo" /><div className="final-overlay" />
+        <div className="container final-content"><h2>Tu academia puede estar <em>funcionando hoy.</em></h2><p>En menos de 20 minutos puedes tener tu primera categoría y convocatoria listas. Sin contrato. Sin complicaciones.</p><div><button className="button" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button><a className="email-link" href="mailto:info@metrikas.pro?subject=Quiero usar Metrikas en mi academia">info@metrikas.pro</a></div></div>
+      </section>
+
+      <footer className="site-footer">
+        <div className="container footer-top"><Brand /><p>La plataforma que transforma cada entrenamiento en decisiones, progreso y control.</p><div><a href="#caracteristicas">Características</a><a href="#precios">Precios</a><a href="#preguntas">Preguntas</a><a href="https://app.metrikas.pro">Iniciar sesión</a><a href="/legal/privacy">Privacidad</a><a href="/legal/minors">Protección de menores</a><a href="/legal/terms">Términos de uso</a><a href="/legal/data-processing">Tratamiento de datos</a></div></div>
+        <div className="container footer-bottom"><span>© 2026 Métrikas · Un producto de Autix</span><div><a href="/legal/privacy">Privacidad</a><a href="/legal/terms">Términos</a><a href="/legal/cookies">Cookies</a><span>Santiago, Chile</span></div></div>
+      </footer>
+
+      <a className="whatsapp-float" href="https://wa.me/56992103974?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Metrikas%20para%20mi%20academia" aria-label="Contactar a Metrikas por WhatsApp">
+        <img src="/assets/whatsapp-original.png" alt="" width="62" height="62" decoding="async" />
+      </a>
+      {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
+      {installOpen && <InstallModal onClose={() => setInstallOpen(false)} />}
+      {checkoutPlan && <CheckoutModal plan={checkoutPlan} onClose={() => setCheckoutPlan(null)} />}
+    </main>
+  );
+}

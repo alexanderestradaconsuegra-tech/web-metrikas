@@ -1441,3 +1441,16 @@ body {
   .compare-board.reveal-visible .compare-row { animation:none; }
   .compare-new { transition:none; }
 }
+
+/* ─────────── Module index (replaces the nine preview cards) ─────────── */
+.module-index-list { margin:64px 0 0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0 56px; }
+.module-index-item { display:flex; align-items:flex-start; gap:18px; padding:30px 0; border-top:1px solid rgba(255,255,255,.13); }
+.module-index-icon { flex:none; width:50px; height:50px; display:grid; place-items:center; border:1px solid rgba(145,225,63,.4); border-radius:50%; background:rgba(145,225,63,.08); transition:background .25s ease, transform .25s ease; }
+.module-index-icon svg { width:24px; height:24px; fill:none; stroke:var(--lime); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; transition:stroke .25s ease; }
+.module-index-item:hover .module-index-icon { background:var(--lime); transform:translateY(-2px); }
+.module-index-item:hover .module-index-icon svg { stroke:#071020; }
+.module-index-item h3 { margin:2px 0 7px; color:#fff; font-size:20px; font-weight:700; letter-spacing:-.02em; }
+.module-index-item p { margin:0; color:#aebccb; font-size:16px; line-height:1.55; }
+@media (max-width:980px) { .module-index-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 40px; margin-top:48px; } }
+@media (max-width:640px) { .module-index-list { grid-template-columns:1fr; margin-top:36px; } .module-index-item { padding:22px 0; gap:16px; } .module-index-item h3 { font-size:19px; } }
+@media (prefers-reduced-motion:reduce) { .module-index-icon,.module-index-icon svg { transition:none; } .module-index-item:hover .module-index-icon { transform:none; } }

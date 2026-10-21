@@ -19,15 +19,15 @@ const initialPlayers: Player[] = [
 ];
 
 const features = [
-  ["01", "Jugadores y categorías", "Perfiles completos, filtros y seguimiento individual desde cualquier dispositivo."],
-  ["02", "Partidos y convocatorias", "Arma la nómina, define la formación y recibe confirmaciones en tiempo real."],
-  ["03", "Evaluaciones y progreso", "Velocidad, fuerza, técnica y resistencia convertidas en evolución visible."],
-  ["04", "Asistencia inteligente", "Publica el calendario y sabe quién llegará antes de pisar la cancha."],
-  ["05", "Pagos automáticos", "Cuotas generadas cada mes y deudas claras, sin perseguir hojas de cálculo."],
-  ["06", "Roles y accesos", "Cada profesor ve solo su categoría. La dirección conserva el control total."],
-  ["07", "Seguimiento físico", "Métricas deportivas y observaciones de entrenamiento para acompañar el progreso de cada jugador."],
-  ["08", "Notificaciones push", "Convocatorias, recordatorios y avisos llegan directo al celular del jugador."],
-  ["09", "Finanzas", "Controla los ingresos y gastos de tu academia, todo en un solo lugar."],
+  ["M16 19v-1a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v1M10 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm9 8v-1a3 3 0 0 0-2-2.8M15 5.2a3 3 0 0 1 0 5.6", "Jugadores y categorías", "Perfil, filtros y seguimiento de cada jugador."],
+  ["M5 21V4m0 0h11l-2 4 2 4H5", "Partidos y convocatorias", "Nómina, formación y confirmaciones en tiempo real."],
+  ["M4 19h16M6 15l4-4 3 3 5-6", "Evaluaciones y progreso", "Velocidad, fuerza y técnica convertidas en evolución visible."],
+  ["M5 5h14v14H5zM5 9h14M9 3v4M15 3v4m-6 9 2 2 4-4", "Asistencia", "Calendario publicado y saber quién llega antes de pisar la cancha."],
+  ["M3 6h18v12H3zM3 10h18M7 15h4", "Pagos automáticos", "Cuotas cada mes y deudas claras, sin hojas de cálculo."],
+  ["M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6zM9.5 12l2 2 3.5-4", "Roles y accesos", "Cada profesor ve solo su categoría. Tú ves todo."],
+  ["M3 12h4l2-6 4 12 2-6h6", "Seguimiento físico", "Métricas y observaciones para acompañar a cada jugador."],
+  ["M6 17h12l-1.5-2V10a4.5 4.5 0 0 0-9 0v5zM10 20h4", "Notificaciones push", "Convocatorias y avisos directo al celular."],
+  ["M4 7h16v12H4zM4 10h16M16 14h4", "Finanzas", "Ingresos y gastos de tu academia en un solo lugar."],
 ];
 
 const faqs = [
@@ -132,88 +132,6 @@ function DownloadIcon() {
 
 function CheckIcon() {
   return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-9" /></svg>;
-}
-
-function FeaturePreview({ number }: { number: string }) {
-  if (number === "01") {
-    return (
-      <div className="module-preview player-preview" aria-hidden="true">
-        <div className="player-preview-photo"><img src="/assets/profile-lucas-cuevas.webp" alt="" width="120" height="120" loading="lazy" decoding="async" /></div>
-        <div className="player-preview-info"><strong>Lucas Cuevas</strong><span>Sub 12 · Lateral</span></div>
-        <div className="player-preview-scores"><span><b>80</b>Score</span><span><b>82</b>Velocidad</span><span><b>85</b>Resistencia</span></div>
-      </div>
-    );
-  }
-
-  if (number === "02") {
-    return (
-      <div className="module-preview match-preview" aria-hidden="true">
-        <div className="mini-pitch"><span /><span /><span /><span /><span /></div>
-        <div className="match-ticket"><small>SÁB 12 OCT · 10:00</small><div><b>MTR</b><i>VS</i><b>CDA</b></div><span><CheckIcon /> Convocatoria enviada</span></div>
-      </div>
-    );
-  }
-
-  if (number === "03") {
-    return (
-      <div className="module-preview evolution-preview" aria-hidden="true">
-        <div className="evolution-head"><strong>Evolución del jugador</strong><b>+32%</b></div>
-        <svg className="evolution-chart" viewBox="0 0 240 82" preserveAspectRatio="none"><path className="chart-grid-line" d="M8 68H232M8 44H232M8 20H232" /><path className="chart-area" d="M8 67 52 55 96 45 140 34 184 23 232 14V76H8Z" /><path className="chart-line" d="M8 67 52 55 96 45 140 34 184 23 232 14" /><g><circle cx="8" cy="67" r="3"/><circle cx="52" cy="55" r="3"/><circle cx="96" cy="45" r="3"/><circle cx="140" cy="34" r="3"/><circle cx="184" cy="23" r="3"/><circle cx="232" cy="14" r="3"/></g></svg>
-        <div className="evolution-metrics"><span>Velocidad <b>+28%</b></span><span>Fuerza <b>+18%</b></span><span>Técnica <b>+35%</b></span></div>
-      </div>
-    );
-  }
-
-  if (number === "04") {
-    return (
-      <div className="module-preview attendance-preview" aria-hidden="true">
-        <strong>Entrenamiento · Mar 8 Oct</strong>
-        {["Tomás López", "Benjamín Díaz", "Lucas Ramírez", "Martín Silva"].map((name, index) => <div className="attendance-row" key={name}><span>{name.slice(0,1)}</span><b>{name}</b><i className={index < 2 ? "ok" : index === 2 ? "pending" : "absent"}>{index < 2 ? "Asistió" : index === 2 ? "En duda" : "No asistirá"}</i></div>)}
-      </div>
-    );
-  }
-
-  if (number === "05") {
-    return (
-      <div className="module-preview payment-preview" aria-hidden="true">
-        <div className="payment-main"><span><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 10h18M7 15h4" /></svg></span><div><small>CUOTA OCTUBRE</small><strong>$45.000</strong></div><b><CheckIcon /> Pagado</b></div>
-        <div className="payment-next"><span>Próxima cuota<br/><small>1 Nov 2026</small></span><strong>$45.000</strong></div>
-      </div>
-    );
-  }
-
-  if (number === "06") {
-    return (
-      <div className="module-preview access-preview" aria-hidden="true">
-        {[['D','Director','Acceso total'],['E','Entrenador','Solo su categoría'],['PF','Preparador físico','Métricas y evaluaciones'],['A','Apoderado','Solo su hijo/a']].map(([badge,title,detail]) => <div key={title}><span>{badge}</span><p><strong>{title}</strong><small>{detail}</small></p></div>)}
-      </div>
-    );
-  }
-
-  if (number === "07") {
-    return (
-      <div className="module-preview fitness-preview" aria-hidden="true">
-        <img src="/assets/role-player.webp" alt="" width="150" height="180" loading="lazy" decoding="async" />
-        <div><span>Distancia<strong>5,2 km</strong></span><span>Vel. máxima<strong>28,4 km/h</strong></span><span>Carga de trabajo<strong><i /> Alto</strong></span></div>
-      </div>
-    );
-  }
-
-  if (number === "08") {
-    return (
-      <div className="module-preview notification-preview" aria-hidden="true">
-        <div className="mini-phone"><span>9:41</span><i /></div>
-        <div className="push-message"><span><svg viewBox="0 0 24 24"><path d="M6 17h12l-1.5-2V10a4.5 4.5 0 0 0-9 0v5zM10 20h4" /></svg></span><p><small>AHORA</small><strong>¡Entrenamiento mañana!</strong><b>Te esperamos a las 10:30.</b></p></div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="module-preview finance-preview" aria-hidden="true">
-      <div className="finance-values"><span><i className="up"><svg viewBox="0 0 24 24"><path d="M5 17 17 5M8 5h9v9" /></svg></i>Cobrado<strong>$1.250.000</strong></span><span><i className="down"><svg viewBox="0 0 24 24"><path d="m5 7 12 12M8 19h9v-9" /></svg></i>Gastado<strong>$430.000</strong></span><span><i className="wallet"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM4 10h16M16 14h4" /></svg></i>Disponible<strong>$820.000</strong></span></div>
-      <div className="finance-bar"><i /><b /></div><div className="finance-legend"><span>Ingresos 74%</span><span>Gastos 26%</span></div>
-    </div>
-  );
 }
 
 function Brand() {
@@ -601,9 +519,13 @@ export default function Home() {
     const root = document.documentElement;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
+    let revealTargetsList: HTMLElement[] = [];
 
     const updateProgress = () => {
       frame = 0;
+      revealTargetsList.forEach((target) => {
+        if (!target.classList.contains("reveal-visible") && target.getBoundingClientRect().bottom < 0) target.classList.add("reveal-visible");
+      });
       const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       root.style.setProperty("--page-progress", String(Math.min(1, window.scrollY / scrollable)));
     };
@@ -613,9 +535,10 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-board, .compare-cta, .feature-card, .showcase-copy, .phone-stage, .exercise-visual, .mini-benefits article, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .module-index-item, .showcase-copy, .phone-stage, .exercise-visual, .mini-benefits article, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
+    revealTargetsList = revealTargets;
     revealTargets.forEach((target, index) => {
       target.classList.add("reveal-item");
       target.style.setProperty("--reveal-delay", `${(index % 3) * 70}ms`);
@@ -730,14 +653,14 @@ export default function Home() {
             <h2>Un sistema completo.<br /><em>No diez herramientas parcheadas.</em></h2>
             <p>Cada módulo fue diseñado para el ritmo real de una academia de fútbol.</p>
           </div>
-          <div className="feature-showcase-grid">
-            {features.map(([number, title, description]) => (
-              <article className={`feature-card module-card module-card-${number}`} key={number}>
-                <div className="module-card-copy"><span className="feature-number">{number}</span><h3>{title}</h3><p>{description}</p></div>
-                <FeaturePreview number={number} />
-              </article>
+          <ul className="module-index-list">
+            {features.map(([icon, title, description]) => (
+              <li className="module-index-item" key={title}>
+                <span className="module-index-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={icon} /></svg></span>
+                <div><h3>{title}</h3><p>{description}</p></div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 

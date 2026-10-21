@@ -69,11 +69,11 @@ const monthlyProgress = [
   { month: "Jul", before: 78, after: 94 },
 ];
 
-const signals = [
-  ["01", "Control total"],
-  ["02", "Decisiones con datos"],
-  ["03", "Equipo conectado"],
-  ["04", "Crecimiento medible"],
+const comparison = [
+  ["Convocatorias perdidas entre mensajes de WhatsApp", "Confirmaciones y avisos directo al celular de cada familia"],
+  ["Pagos repartidos entre cuadernos y hojas de cálculo", "Cuotas automáticas y deudas siempre a la vista"],
+  ["Progreso imposible de demostrar a los apoderados", "Gráficas de evolución y una ficha que el jugador quiere mostrar"],
+  ["Contraseñas compartidas y accesos sin control", "Un acceso seguro para cada profesor, solo a su categoría"],
 ];
 
 const structuredData = {
@@ -132,12 +132,6 @@ function DownloadIcon() {
 
 function CheckIcon() {
   return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-9" /></svg>;
-}
-
-function MediaIcon({ paused }: { paused: boolean }) {
-  return paused
-    ? <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 5 8 5-8 5Z" /></svg>
-    : <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10" /></svg>;
 }
 
 function FeaturePreview({ number }: { number: string }) {
@@ -602,7 +596,6 @@ export default function Home() {
   const [installOpen, setInstallOpen] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<CheckoutPlan | null>(null);
   const [openFaq, setOpenFaq] = useState(0);
-  const [signalPaused, setSignalPaused] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -620,7 +613,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-card, .feature-card, .showcase-copy, .phone-stage, .exercise-visual, .mini-benefits article, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .feature-card, .showcase-copy, .phone-stage, .exercise-visual, .mini-benefits article, .card-copy, .game-card-wrap, .dashboard-kpi, .trend-panel, .metric-card, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
     revealTargets.forEach((target, index) => {
@@ -703,17 +696,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={signalPaused ? "signal-bar is-paused" : "signal-bar"} aria-label="Beneficios principales">
-        <div className="signal-grid">
-          <div className="signal-track">
-            {[0, 1].map((group) => (
-              <div className="signal-group" aria-hidden={group === 1} key={group}>
-                {signals.map(([number, label]) => <span key={`${group}-${number}`}><b>{number}</b>{label}</span>)}
-              </div>
-            ))}
-          </div>
-          <button className="signal-toggle" type="button" onClick={() => setSignalPaused((value) => !value)} aria-label={signalPaused ? "Reanudar beneficios" : "Pausar beneficios"}><MediaIcon paused={signalPaused} /></button>
-        </div>
+      <section className="benefit-band" aria-label="Qué resuelve Métrikas">
+        <ul className="benefit-band-list">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 10h18M7 15h4" /></svg>Cobros al día</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5zM5 9h14M9 3v4M15 3v4m-6 9 2 2 4-4" /></svg>Convocatorias confirmadas</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0" /></svg>Fichas que motivan</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm3 15h2" /></svg>Todo en el celular</li>
+        </ul>
       </section>
 
       <section className="section problem-section">
@@ -722,16 +711,16 @@ export default function Home() {
             <div><h2>De la improvisación<br />al <em>control total.</em></h2></div>
             <p>Centraliza el trabajo de tu academia. Convierte cada entrenamiento, asistencia y evaluación en información útil para decidir mejor.</p>
           </div>
-          <div className="compare-grid">
-            <article className="compare-card old-way">
-              <div className="compare-top"><span className="compare-icon">×</span><div><small>ANTES</small><h3>Todo por separado</h3></div></div>
-              <ul><li>Convocatorias perdidas en grupos de WhatsApp</li><li>Pagos entre cuadernos y hojas de cálculo</li><li>Progreso imposible de demostrar a los padres</li><li>Contraseñas compartidas y accesos sin control</li></ul>
-            </article>
-            <article className="compare-card new-way">
-              <div className="compare-top"><span className="compare-icon">✓</span><div><small>CON METRIKAS</small><h3>Una academia conectada</h3></div></div>
-              <ul><li>Confirmaciones y avisos directos al celular</li><li>Cuotas automáticas y deudas siempre visibles</li><li>Gráficas de evolución fáciles de entender</li><li>Un acceso seguro para cada profesor</li></ul>
-            </article>
+          <div className="compare-board">
+            <div className="compare-head" aria-hidden="true"><span>Hoy, todo por separado</span><span>Con Métrikas, una academia conectada</span></div>
+            {comparison.map(([before, after]) => (
+              <div className="compare-row" key={before}>
+                <p className="compare-old"><span className="compare-mark" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15" /></svg></span><span className="sr-only">Antes: </span>{before}</p>
+                <p className="compare-new"><span className="compare-mark" aria-hidden="true"><CheckIcon /></span><span className="sr-only">Con Métrikas: </span>{after}</p>
+              </div>
+            ))}
           </div>
+          <div className="compare-cta"><button className="button" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button><span>Con tu propia academia, sin tarjeta.</span></div>
         </div>
       </section>
 

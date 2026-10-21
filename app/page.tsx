@@ -179,24 +179,6 @@ function TacticalBoard() {
   );
 }
 
-function CalendarPhone() {
-  return (
-    <div className="phone phone-calendar" aria-hidden="true">
-      <div className="phone-notch" />
-      <div className="phone-screen">
-        <div className="phone-status"><span>9:41</span><span>● ●</span></div>
-        <div className="app-brand"><b>M</b><span>Métrikas</span><i /></div>
-        <div className="app-title"><small>AGOSTO 2026</small><h4>Tu calendario</h4></div>
-        <div className="week-row"><span>L<small>10</small></span><span>M<small>11</small></span><span className="active">M<small>12</small></span><span>J<small>13</small></span><span>V<small>14</small></span></div>
-        <div className="event-card green"><small>18:30 · SUB 15</small><strong>Entrenamiento técnico</strong><span>Cancha 2 · 18 confirmados</span></div>
-        <div className="event-card blue"><small>20:00 · SUB 17</small><strong>Preparación física</strong><span>Gimnasio · 16 confirmados</span></div>
-        <div className="event-card amber"><small>SÁBADO · 10:00</small><strong>Partido vs. Cóndores FC</strong><span>Estadio Municipal</span></div>
-        <div className="phone-nav"><span>⌂<small>Inicio</small></span><span className="on">□<small>Calendario</small></span><span>◎<small>Equipo</small></span></div>
-      </div>
-    </div>
-  );
-}
-
 function GameCard() {
   return (
     <div className="game-card-wrap">
@@ -481,7 +463,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .phone-stage, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .appshot, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
     ));
 
     revealTargetsList = revealTargets;
@@ -610,26 +592,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section product-section" id="producto">
+      <section className="section appshot-section" id="producto">
         <div className="container">
-          <div className="section-heading product-heading">
-            <h2>Diseñada para la cancha.<br /><em>Lista para dirigir.</em></h2>
-            <p>Información clara para el cuerpo técnico, los jugadores y las familias. Sin procesos complicados.</p>
+          <div className="section-heading centered appshot-heading">
+            <h2>Todos tus jugadores, <em>a la vista.</em></h2>
+            <p>Así se ve Métrikas por dentro: tu plantel completo con el puntaje de cada jugador, y su ficha con evolución y logros, también desde el celular.</p>
           </div>
-
-          <article className="showcase-row">
-            <div className="showcase-copy">
-              <h3>Planifica cada evento con tranquilidad.</h3>
-              <p>Partidos, entrenamientos y torneos en un solo lugar. Todo el equipo ve el calendario actualizado en tiempo real.</p>
-              <ul><li>Crea eventos por fecha, hora y categoría</li><li>Notificaciones push automáticas</li><li>Reprograma y avisa a todos al instante</li></ul>
-              <button className="inline-cta" onClick={() => setDemoOpen(true)}>Probar este módulo <ArrowIcon /></button>
-            </div>
-            <div className="phone-stage calendar-stage">
-              <span className="stage-ring" /><span className="stage-grid" />
-              <CalendarPhone />
-              <div className="notify-card"><span>✓</span><div><small>CONFIRMACIÓN RECIBIDA</small><strong>18 jugadores asistirán</strong></div></div>
-            </div>
-          </article>
+          <div className="appshot">
+            <figure className="appshot-browser">
+              <div className="appshot-bar" aria-hidden="true"><i /><i /><i /><span>app.metrikas.pro/players</span></div>
+              <img src="/assets/app-jugadores.webp" width="2400" height="1492" loading="lazy" decoding="async" alt="Pantalla Jugadores de Métrikas: ocho jugadores con su puntaje general, su posición y sus tres atributos principales." />
+            </figure>
+            <figure className="appshot-phone">
+              <img src="/assets/app-ficha.webp" width="1170" height="2532" loading="lazy" decoding="async" alt="Ficha de un jugador en el celular: puntaje, datos físicos y los seis atributos con barras de colores." />
+            </figure>
+          </div>
+          <p className="appshot-note">Pantallas reales de Métrikas con jugadores de ejemplo.</p>
+          <div className="appshot-cta"><button className="button" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button></div>
         </div>
       </section>
 

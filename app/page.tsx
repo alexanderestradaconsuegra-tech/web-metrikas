@@ -471,7 +471,7 @@ export default function Home() {
     };
 
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(
-      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .appshot, .screens-grid, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trust-grid article, .faq-item, .final-content"
+      ".section-heading, .compare-board, .compare-cta, .module-index-item, .access-board, .showcase-copy, .appshot, .screens-grid, .card-copy, .game-card-wrap, .progress2-chart, .role-card, .price-card, .included-card, .trial-line, .faq-item, .final-content"
     ));
 
     revealTargetsList = revealTargets;
@@ -685,13 +685,13 @@ export default function Home() {
 
       <section className="section trust-section">
         <div className="container">
-          <div className="section-heading centered trust-heading"><h2>Empieza sin riesgo.<br /><em>Y con alguien que contesta.</em></h2><p>Métrikas se usa cada semana en una academia real de Santiago y se mejora con lo que ahí se necesita.</p></div>
-          <div className="trust-grid">
-            <article><span><CheckIcon /></span><h3>14 días gratis</h3><p>Acceso completo para probar con tu propia academia, sin tarjeta de por medio.</p></article>
-            <article><span><CheckIcon /></span><h3>Sin contrato</h3><p>Cancelas cuando quieras y mantienes el acceso hasta el final del período pagado.</p></article>
-            <article><span><CheckIcon /></span><h3>Datos aislados</h3><p>Cada academia ve solo lo suyo, y cada profesor solo su categoría.</p></article>
-            <article><span><CheckIcon /></span><h3>Soporte por WhatsApp</h3><p>Escríbenos y te respondemos directo, sin tickets ni bots.</p></article>
-          </div>
+          <div className="section-heading centered trust-heading"><h2>Pruébalo 14 días.<br /><em>Decides después.</em></h2><p>Sin tarjeta y sin contrato. Si no te convence, no pagas nada.</p></div>
+          <ol className="trial-line">
+            <li><span className="trial-when">Hoy</span><h3>Creas tu academia</h3><p>Solo tu correo y el nombre de la academia. Recibes el acceso al instante.</p></li>
+            <li><span className="trial-when">Días 1 a 14</span><h3>Todo desbloqueado</h3><p>Jugadores, convocatorias, cobros y fichas, sin límites. Úsalo con tu equipo real.</p></li>
+            <li><span className="trial-when">Día 14</span><h3>Tú decides</h3><p>Si te sirve, eliges un plan. Si no, simplemente no pagas: no hay nada que cancelar.</p></li>
+            <li className="trial-always"><span className="trial-when">Siempre</span><h3>Te contesta una persona</h3><p>Dudas por WhatsApp, directo con nosotros. Sin bots ni tickets.</p></li>
+          </ol>
         </div>
       </section>
 

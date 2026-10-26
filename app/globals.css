@@ -1003,6 +1003,19 @@ main.redesign-v26 > .section { padding-top:calc(136px + var(--band-r) * .5); }
 .appshot-browser img { display:block; width:100%; height:auto; }
 .appshot-phone { position:absolute; right:-1.5%; bottom:0; width:clamp(200px,21%,270px); margin:0; padding:.45rem; border-radius:2.4rem; background:#02060f; box-shadow:0 30px 70px -10px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.14); transform:rotate(2deg); }
 .appshot-phone img { display:block; width:100%; height:auto; border-radius:2rem; }
+.appdemo-tabs { display:flex; justify-content:center; gap:.6rem; margin:0 0 1.6rem; }
+.appdemo-tab { display:flex; flex-direction:column; gap:.55rem; min-width:8.5rem; padding:.7rem .95rem .75rem; border:1px solid rgba(255,255,255,.12); border-radius:.9rem; background:rgba(255,255,255,.04); color:#bacde0; font:600 .9rem/1.2 var(--font-body); text-align:left; cursor:pointer; transition:background .2s,border-color .2s,color .2s; }
+.appdemo-tab b { margin-right:.45rem; color:var(--lime); }
+.appdemo-tab:hover { border-color:rgba(145,225,63,.45); color:#fff; }
+.appdemo-tab[aria-pressed="true"] { border-color:rgba(145,225,63,.65); background:rgba(145,225,63,.12); color:#fff; }
+.appdemo-tab:focus-visible, .appdemo-toggle:focus-visible { outline:2px solid var(--lime); outline-offset:2px; }
+.appdemo-bar { display:block; height:3px; overflow:hidden; border-radius:3px; background:rgba(255,255,255,.12); }
+.appdemo-bar i { display:block; height:100%; background:var(--lime); transform-origin:left; transition:transform .3s linear; }
+.appdemo-toggle { display:grid; place-items:center; width:1.75rem; height:1.75rem; margin-left:auto; padding:0; border:0; border-radius:50%; background:#fff; color:#4f5d6c; cursor:pointer; }
+.appdemo-toggle:hover { color:#071020; }
+.appshot-browser video { display:block; width:100%; height:auto; aspect-ratio:16/10; background:#f4f6f1; animation:appdemo-in .35s ease-out; }
+.appshot-phone video { display:block; width:100%; height:auto; aspect-ratio:560/1212; border-radius:2rem; background:#05122f; }
+@keyframes appdemo-in { from { opacity:.4; } }
 .appshot-note { margin:1.2rem 0 0; text-align:center; color:#8294a8; font-size:.85rem; }
 .appshot-cta { display:flex; justify-content:center; margin-top:1.6rem; }
 .appshot.reveal-item:not(.reveal-visible) .appshot-phone { opacity:0; transform:translateY(40px) rotate(2deg); }
@@ -1011,8 +1024,11 @@ main.redesign-v26 > .section { padding-top:calc(136px + var(--band-r) * .5); }
   .appshot-heading { margin-bottom:34px; }
   .appshot { padding-bottom:0; }
   .appshot-phone { position:relative; right:auto; width:min(62%,250px); margin:-5rem auto 0; }
+  .appdemo-tabs { justify-content:flex-start; gap:.45rem; margin:0 -1rem 1.2rem; padding:0 1rem .2rem; overflow-x:auto; scrollbar-width:none; }
+  .appdemo-tabs::-webkit-scrollbar { display:none; }
+  .appdemo-tab { flex:none; min-width:7rem; padding:.6rem .8rem .65rem; font-size:.85rem; }
 }
-@media (prefers-reduced-motion:reduce) { .appshot-phone { transition:none; } .appshot.reveal-item:not(.reveal-visible) .appshot-phone { opacity:1; transform:rotate(2deg); } }
+@media (prefers-reduced-motion:reduce) { .appshot-browser video, .appdemo-bar i { animation:none; transition:none; } .appshot-phone { transition:none; } .appshot.reveal-item:not(.reveal-visible) .appshot-phone { opacity:1; transform:rotate(2deg); } }
 .redesign-v26 .appshot-section .section-heading h2 em { color:var(--lime); }
 .redesign-v26 .appshot-section .appshot-heading > p { color:#bacde0; }
 

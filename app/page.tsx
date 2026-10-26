@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import AppDemo from "./AppDemo";
 import PhoneWalkthrough from "./PhoneWalkthrough";
 import StackedSteps from "./StackedSteps";
 
@@ -606,18 +607,10 @@ export default function Home() {
         <div className="container">
           <div className="section-heading centered appshot-heading">
             <h2>Todos tus jugadores, <em>a la vista.</em></h2>
-            <p>Así se ve Métrikas por dentro: tu plantel completo con el puntaje de cada jugador, y su ficha con evolución y logros, también desde el celular.</p>
+            <p>Así se usa Métrikas por dentro: pasar asistencia, evaluar, cobrar y compartir el reporte de cada jugador. También desde el celular.</p>
           </div>
-          <div className="appshot">
-            <figure className="appshot-browser">
-              <div className="appshot-bar" aria-hidden="true"><i /><i /><i /><span>app.metrikas.pro/players</span></div>
-              <img src="/assets/app-jugadores.webp" width="2400" height="1492" loading="lazy" decoding="async" alt="Pantalla Jugadores de Métrikas: ocho jugadores con su puntaje general, su posición y sus tres atributos principales." />
-            </figure>
-            <figure className="appshot-phone">
-              <img src="/assets/app-ficha.webp" width="1170" height="2532" loading="lazy" decoding="async" alt="Ficha de un jugador en el celular: puntaje, datos físicos y los seis atributos con barras de colores." />
-            </figure>
-          </div>
-          <p className="appshot-note">Pantallas reales de Métrikas con jugadores de ejemplo.</p>
+          <AppDemo />
+          <p className="appshot-note">Grabación real de Métrikas con una academia y jugadores de ejemplo.</p>
           <div className="appshot-cta"><button className="button" onClick={() => setDemoOpen(true)}>Probar gratis 14 días <ArrowIcon /></button></div>
         </div>
       </section>

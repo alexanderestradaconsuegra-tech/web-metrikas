@@ -607,7 +607,7 @@ export default function Home() {
         <div className="container">
           <div className="section-heading centered appshot-heading">
             <h2>Todos tus jugadores, <em>a la vista.</em></h2>
-            <p>Así se usa Métrikas por dentro: pasar asistencia, evaluar, cobrar y compartir el reporte de cada jugador. También desde el celular.</p>
+            <p>Así se usa Métrikas por dentro: pasar asistencia, evaluar, cobrar y compartir el reporte de cada jugador. Y en su celular, cada jugador ve su convocatoria, su lugar en la alineación y las jugadas del tablero.</p>
           </div>
           <AppDemo />
           <p className="appshot-note">Grabación real de Métrikas con una academia y jugadores de ejemplo.</p>

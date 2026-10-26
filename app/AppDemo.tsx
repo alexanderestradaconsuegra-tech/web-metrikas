@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 // Screen recordings of the real app (fictional academy and players), shown in
 // the browser and phone frames of the "Todos tus jugadores" section.
-// The five desktop clips play one after another; each tab jumps to its step.
+// The browser shows the coach: five clips one after another, each tab jumps to
+// its step. The phone shows what a player sees: the call-up and a tactics play.
 // Video only plays while the section is on screen, never with reduced motion
 // unless the visitor asks for it, and can always be paused.
 
@@ -14,6 +15,11 @@ const clips = [
   { id: "03-evaluacion", label: "Evaluación", path: "app.metrikas.pro/players", about: "cargar una evaluación y ver el gráfico de evolución del jugador" },
   { id: "04-pagos", label: "Pagos", path: "app.metrikas.pro/payments", about: "ver quién debe y marcar pagos; el total vencido baja" },
   { id: "05-reporte", label: "Reporte", path: "app.metrikas.pro/reports", about: "abrir el reporte de un jugador listo para descargar en PDF" },
+];
+
+const phoneClips = [
+  { id: "07-convocatoria", about: "el jugador abre su convocatoria, confirma que va y ve su lugar en la alineación" },
+  { id: "08-tactica", about: "el jugador abre una jugada guardada en el tablero táctico y la ve animada" },
 ];
 
 const motionQuery = "(prefers-reduced-motion: reduce)";
@@ -29,6 +35,7 @@ export default function AppDemo() {
   const desktop = useRef<HTMLVideoElement>(null);
   const phone = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(0);
+  const [phoneActive, setPhoneActive] = useState(0);
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(false);
   // null until the visitor presses play or pause; until then reduced motion decides.
@@ -51,7 +58,7 @@ export default function AppDemo() {
       if (playing) video.play().catch(() => {});
       else video.pause();
     }
-  }, [playing, active]);
+  }, [playing, active, phoneActive]);
 
   const choose = (i: number) => {
     setActive(i);
@@ -59,6 +66,7 @@ export default function AppDemo() {
     setUserPaused(false);
   };
   const clip = clips[active];
+  const phoneClip = phoneClips[phoneActive];
 
   return (
     <>
@@ -102,20 +110,22 @@ export default function AppDemo() {
           </video>
         </figure>
         <figure className="appshot-phone">
+          <figcaption className="appshot-phone-tag">Así lo ve el jugador</figcaption>
           <video
+            key={phoneClip.id}
             ref={phone}
-            poster={`/assets/demo/06-movil-560${reduced && paused ? "" : "-start"}.webp`}
+            poster={`/assets/demo/${phoneClip.id}-560${reduced && paused ? "" : "-start"}.webp`}
             width={560}
             height={1212}
             muted
-            loop
             playsInline
             preload="none"
             disablePictureInPicture
-            aria-label="Video de Métrikas en el celular: ingreso y panel con la alerta de pagos."
+            aria-label={`Video de Métrikas en el celular del jugador: ${phoneClip.about}.`}
+            onEnded={() => setPhoneActive((i) => (i + 1) % phoneClips.length)}
           >
-            <source src="/media/demo/06-movil-560.webm" type='video/webm; codecs="vp9"' />
-            <source src="/media/demo/06-movil-560.mp4" type="video/mp4" />
+            <source src={`/media/demo/${phoneClip.id}-560.webm`} type='video/webm; codecs="vp9"' />
+            <source src={`/media/demo/${phoneClip.id}-560.mp4`} type="video/mp4" />
           </video>
         </figure>
       </div>
